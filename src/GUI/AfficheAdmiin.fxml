@@ -13,7 +13,7 @@
 <?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.VBox?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="929.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.AfficheAdminController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="929.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.AfficheAdminController">
     <top>
         <HBox alignment="CENTER_LEFT" spacing="20.0" style="-fx-background-color: #343a40;">
             <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
@@ -21,10 +21,11 @@
                     <Image url="@../../../../../rare.jfif" />
                 </image>
             </ImageView>
-            <Label style="-fx-text-fill: white;" text="Nom du site" />
-            <TextField promptText="Rechercher des pièces de collection..." style="-fx-background-color: white;" />
-            <Button style="-fx-background-color: #007bff; -fx-text-fill: white;" text="Rechercher" />
+            <TextField fx:id="eChercher" promptText="Rechercher" style="-fx-background-color: white;" />
             <Region HBox.hgrow="ALWAYS" />
+         <Button mnemonicParsing="false" onAction="#stock" style="-fx-background-color: #007bff;" text="gerer les stocks" textFill="WHITE" />
+         <Button mnemonicParsing="false" onAction="#afficher_evnt" style="-fx-background-color: #007bff;" text="gerer les evenement" textFill="WHITE" />
+         <Button mnemonicParsing="false" onAction="#afficherRec" style="-fx-background-color: #007bff;" text="repondre une reclamation" textFill="WHITE" />
             <Button style="-fx-background-color: #007bff; -fx-text-fill: white;" text="Déconnexion" />
         </HBox>
     </top>
@@ -34,11 +35,15 @@
             <TableView fx:id="userTable" prefHeight="331.0" prefWidth="929.0" style="-fx-font-size: 14pt;">
                 
                 <columns>
-                    <TableColumn fx:id="usernameColumn" prefWidth="200.0" text="Nom" />
-               <TableColumn fx:id="prenomColumn" prefWidth="210.0" text="Prenom" />
+                    <TableColumn fx:id="idColumn" prefWidth="98.0" text="Id" />
+                    <TableColumn fx:id="nomColumn" prefWidth="200.0" text="Nom" />
+                    <TableColumn fx:id="prenomColumn" prefWidth="210.0" text="Prenom" />
                     <TableColumn fx:id="emailColumn" prefWidth="264.0" text="Adresse email" />
                     <TableColumn fx:id="roleColumn" prefWidth="120.0" text="Rôle" />
-               <TableColumn fx:id="sexeColumn" prefWidth="98.0" text="Sexe" />
+                    <TableColumn fx:id="genreColumn" prefWidth="98.0" text="genre" />
+                    <TableColumn fx:id="passwordColumn" prefWidth="98.0" text="Password" />
+                    <TableColumn fx:id="date_naissanceColumn" prefWidth="98.0" text="Date_naissance" />
+                    <TableColumn fx:id="is_verifiedColumn" prefWidth="98.0" text="Is_verified" />
                 </columns>
             </TableView>
             <HBox alignment="CENTER" spacing="20.0">

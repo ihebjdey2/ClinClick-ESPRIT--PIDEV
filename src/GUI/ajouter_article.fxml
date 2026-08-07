@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.Ajouter_articleController">
+   <children>
+      <AnchorPane id="AnchorPane" layoutX="1.0" layoutY="77.0" prefHeight="322.0" prefWidth="600.0">
+         <children>
+            <Label layoutX="166.0" layoutY="76.0" prefHeight="26.0" prefWidth="118.0" text="Nom" />
+            <Label layoutX="166.0" layoutY="114.0" prefHeight="26.0" prefWidth="102.0" text="Categorie" />
+            <Label layoutX="166.0" layoutY="147.0" prefHeight="26.0" prefWidth="102.0" text="Quantite" />
+            <Label layoutX="167.0" layoutY="187.0" prefHeight="26.0" prefWidth="101.0" text="Date d'expiration" />
+            <TextField fx:id="fx_nomA" layoutX="271.0" layoutY="77.0" />
+            <TextField fx:id="fx_quantiteA" layoutX="271.0" layoutY="148.0" />
+            <Button fx:id="ajouter" layoutX="346.0" layoutY="245.0" mnemonicParsing="false" onAction="#ajouter" prefHeight="34.0" prefWidth="118.0" style="-fx-background-color: #048b9a;" text="Ajouter">
+               <font>
+                  <Font size="16.0" />
+               </font></Button>
+            <DatePicker fx:id="fx_dateA" layoutX="271.0" layoutY="187.0" />
+            <Button fx:id="annuler" layoutX="111.0" layoutY="249.0" mnemonicParsing="false" onAction="#annuler" prefHeight="34.0" prefWidth="118.0" style="-fx-background-color: #048b9a;" text="Annuler">
+               <font>
+                  <Font size="16.0" />
+               </font>
+            </Button>
+            <ComboBox fx:id="fx_catId1" layoutX="271.0" layoutY="115.0" prefWidth="150.0" />
+         </children>
+      </AnchorPane>
+      <AnchorPane layoutY="-1.0" prefHeight="80.0" prefWidth="601.0" style="-fx-background-color: #048b9a;">
+         <children>
+            <Label alignment="CENTER" layoutX="218.0" layoutY="20.0" prefHeight="39.0" prefWidth="238.0" text="Ajout d'un stock">
+               <font>
+                  <Font size="27.0" />
+               </font>
+            </Label>
+            <ImageView fitHeight="80.0" fitWidth="80.0" pickOnBounds="true" preserveRatio="true" />
+         </children>
+      </AnchorPane>
+   </children>
+</AnchorPane>

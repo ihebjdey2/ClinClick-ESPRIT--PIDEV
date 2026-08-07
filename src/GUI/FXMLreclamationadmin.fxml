@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.effect.Glow?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane id="AnchorPane" prefHeight="688.0" prefWidth="1223.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.FXMLreclamationadminController">
+   <children>
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#9ebeff" height="688.0" layoutX="794.0" stroke="BLACK" strokeType="INSIDE" width="429.0" />
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#e3ece9" height="688.0" layoutY="-14.0" stroke="BLACK" strokeType="INSIDE" width="794.0" />
+      <TableView fx:id="tvreclamation" layoutX="39.0" layoutY="141.0" prefHeight="438.0" prefWidth="735.0">
+        <columns>
+          <TableColumn fx:id="tcemail" prefWidth="96.0" text="Email" />
+          <TableColumn fx:id="tcnom" prefWidth="101.0" text="nom" />
+            <TableColumn fx:id="tcdescription" prefWidth="444.0" text="Description" />
+            <TableColumn fx:id="tcetat" minWidth="0.0" prefWidth="92.79997558593755" text="Etat" />
+        </columns>
+      </TableView>
+      <TextArea fx:id="tfmessage" layoutX="850.0" layoutY="308.0" prefHeight="268.0" prefWidth="330.0" promptText="Reponse" />
+      <Button layoutX="1099.0" layoutY="615.0" mnemonicParsing="false" onAction="#envoyer" prefHeight="30.0" prefWidth="81.0" text="Envoyer" textFill="#2086f4" />
+      <TextField fx:id="tfobjet" layoutX="850.0" layoutY="193.0" prefHeight="46.0" prefWidth="330.0" promptText="Objet" />
+      <TextField fx:id="eChercher" layoutX="39.0" layoutY="103.0" onAction="#chercherparnom" />
+      <Button fx:id="bchercher" layoutX="215.0" layoutY="103.0" mnemonicParsing="false" onAction="#chercherparnom" text="Search" textFill="#2086f4" />
+      <Button layoutX="705.0" layoutY="103.0" mnemonicParsing="false" onAction="#stat" prefHeight="26.0" prefWidth="69.0" text="stat" textFill="#2086f4" />
+      <Button layoutX="573.0" layoutY="102.0" mnemonicParsing="false" onAction="#pdf" prefHeight="26.0" prefWidth="58.0" text="pdf" textFill="#2086f4" />
+     
+      <ImageView fitHeight="79.0" fitWidth="94.0" layoutX="333.0" layoutY="6.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@333542420_1545552985965715_4113607097632276791_n.png" />
+         </image>
+      </ImageView>
+      <Text fill="#151515" layoutX="801.0" layoutY="127.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Repondre a une reclamation">
+         <font>
+            <Font size="32.0" />
+         </font>
+         <effect>
+            <Glow level="1.0" />
+         </effect>
+      </Text>
+      <Button layoutX="705.0" layoutY="618.0" mnemonicParsing="false" onAction="#retour" text="retour" />
+   </children>
+</AnchorPane>

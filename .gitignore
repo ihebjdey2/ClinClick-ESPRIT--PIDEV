@@ -1,0 +1,14 @@
+﻿/build/
+/dist/
+/nbproject/private/
+*.class
+*.log
+*.tmp
+*.bak
+*.swp
+/.idea/
+/*.iml
+/gugugu.pdf
+/iheb.pdf
+/reclamations.pdf
+/users.xls

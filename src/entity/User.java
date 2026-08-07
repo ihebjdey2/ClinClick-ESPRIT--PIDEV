@@ -58,6 +58,13 @@ public class User {
         this.prenom = prenom;
         this.genre = genre;
     }
+    public User(String email, String roles, String nom, String prenom, String genre) {
+        this.email = email;
+        this.roles = roles;
+        this.nom = nom;
+        this.prenom = prenom;
+        this.genre = genre;
+    }
 
     public User(String email, String roles, String password, java.sql.Date date_naissance, String nom, String prenom, String genre) {
         this.email = email;

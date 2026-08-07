@@ -8,6 +8,7 @@ package GUI;
 import static com.itextpdf.text.pdf.XfaXpathConstructor.XdpPackage.Pdf;
 import entity.Pdf;
 import entity.User;
+import gestionreclamationsante.FXMain;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -28,6 +29,7 @@ import javafx.collections.transformation.FilteredList;
 import javafx.collections.transformation.SortedList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.print.PageOrientation;
 import javafx.print.Paper;
@@ -35,15 +37,19 @@ import javafx.print.Printer;
 import javafx.print.PrinterAttributes;
 import javafx.print.PrinterJob;
 import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.transform.Scale;
+import javafx.stage.Stage;
 import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
@@ -60,7 +66,9 @@ public class AfficheAdminController implements Initializable {
     @FXML
     private TableView<User> userTable;
     @FXML
-    private TableColumn<User, String> usernameColumn,emailColumn,roleColumn,prenomColumn,sexeColumn;
+    private TableColumn<User, String> idColumn,nomColumn,prenomColumn,emailColumn,roleColumn,genreColumn,passwordColumn,date_naissanceColumn,is_verifiedColumn;
+   @FXML
+    private TextField eChercher;
     @FXML
     private Button addButton;
     @FXML
@@ -87,13 +95,15 @@ public class AfficheAdminController implements Initializable {
         private void refreshTable(){
         
         ObservableList<User> userlist = FXCollections.observableArrayList();
-        
-        usernameColumn.setCellValueFactory(new PropertyValueFactory<User,String>("nom"));
+        idColumn.setCellValueFactory(new PropertyValueFactory<User,String>("id"));
+        nomColumn.setCellValueFactory(new PropertyValueFactory<User,String>("nom"));
+        prenomColumn.setCellValueFactory(new PropertyValueFactory<User,String>("prenom"));
         emailColumn.setCellValueFactory(new PropertyValueFactory<User,String>("email"));
         roleColumn.setCellValueFactory(new PropertyValueFactory<User,String>("roles"));
-        prenomColumn.setCellValueFactory(new PropertyValueFactory<User,String>("prenom"));
-        sexeColumn.setCellValueFactory(new PropertyValueFactory<User,String>("genre"));
-        
+        genreColumn.setCellValueFactory(new PropertyValueFactory<User,String>("genre"));
+        passwordColumn.setCellValueFactory(new PropertyValueFactory<User,String>("password"));
+        date_naissanceColumn.setCellValueFactory(new PropertyValueFactory<User,String>("date_naissance"));
+        is_verifiedColumn.setCellValueFactory(new PropertyValueFactory<User,String>("is_verified"));
         
         users=us.getAllUsers();
         userlist.addAll(users);
@@ -130,20 +140,29 @@ public class AfficheAdminController implements Initializable {
 
             HSSFRow header = sheet.createRow(0);
 
-            header.createCell(0).setCellValue("nom");
-            header.createCell(1).setCellValue("email");
-            header.createCell(2).setCellValue("roles");
-            header.createCell(3).setCellValue("prenom");
-            header.createCell(4).setCellValue("genre");
+            header.createCell(0).setCellValue("id");
+            header.createCell(1).setCellValue("nom");
+            header.createCell(2).setCellValue("prenom");
+            header.createCell(3).setCellValue("email");
+            header.createCell(4).setCellValue("roles");
+            header.createCell(5).setCellValue("genre");
+            header.createCell(6).setCellValue("password");
+            header.createCell(7).setCellValue("date_naissance");
+            header.createCell(8).setCellValue("is_verified");
 
             int index = 1;
             while (rs.next()) {
                 HSSFRow row = sheet.createRow(index);
-                row.createCell(0).setCellValue(rs.getString(1));
-                row.createCell(1).setCellValue(rs.getString(2));
-                row.createCell(2).setCellValue(rs.getString(3));
-                row.createCell(3).setCellValue(rs.getString(4));
-                row.createCell(4).setCellValue(rs.getString(6));
+                row.createCell(0).setCellValue(rs.getString(0));
+                row.createCell(1).setCellValue(rs.getString(1));
+                row.createCell(2).setCellValue(rs.getString(2));
+                row.createCell(3).setCellValue(rs.getString(3));
+                row.createCell(4).setCellValue(rs.getString(4));
+                row.createCell(5).setCellValue(rs.getString(5));
+                row.createCell(6).setCellValue(rs.getString(6));
+                row.createCell(7).setCellValue(rs.getString(7));
+                row.createCell(8).setCellValue(rs.getString(8));
+                
                
                 index++;
 
@@ -226,4 +245,76 @@ public class AfficheAdminController implements Initializable {
         node.getTransforms().remove(scale);
 
     }
+@FXML
+    private void afficherRec(ActionEvent event) {
+     Stage stageclose=(Stage)((Node)event.getSource()).getScene().getWindow();
+        stageclose.close();
+        try {
+            Parent root=FXMLLoader.load(getClass().getResource("/GUI/FXMLreclamationadmin.fxml"));
+
+            Scene scene = new Scene(root);
+            Stage primaryStage=new Stage();
+            primaryStage.setTitle("liste des recalamation");
+            primaryStage.setScene(scene);
+            primaryStage.show();
+        } catch (IOException ex) {
+            Logger.getLogger(FXMain.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    @FXML
+private void afficher_evnt(ActionEvent event) throws IOException {
+    Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+    stage.setTitle("Gestion Evenements");
+    Parent root = FXMLLoader.load(getClass().getResource("/GUI/EventInterface.fxml"));
+    Scene scene = new Scene(root);
+    stage.setScene(scene);
+    stage.show();
 }
+    @FXML
+private void stock(ActionEvent event) throws IOException {
+    Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+    stage.setTitle("Gestion des stocks");
+    Parent root = FXMLLoader.load(getClass().getResource("/GUI/location_article.fxml"));
+    Scene scene = new Scene(root);
+    stage.setScene(scene);
+    stage.show();
+}
+}
+    
+/*private void chercherparnom(ActionEvent event) {
+    UserService rs = new UserService();
+    ObservableList<User> list = FXCollections.observableList(rs.getAllUsers());
+    UserService e = new UserService();
+
+  // Set up the table view and its cell factories
+nomColumn.setCellValueFactory(new PropertyValueFactory<>("nom"));
+prenomColumn.setCellValueFactory(new PropertyValueFactory<>("prenom"));
+
+userTable.setItems(list);
+
+// Create a filtered list and bind it to the table view
+FilteredList<User> filteredData = new FilteredList<>(list, b -> true);
+userTable.setItems(filteredData);
+
+// Create a sorted list and bind it to the filtered list
+SortedList<User> sortedData = new SortedList<>(filteredData);
+sortedData.comparatorProperty().bind(userTable.comparatorProperty());
+userTable.setItems(sortedData);
+
+// Set up the text field listener
+eChercher.textProperty().addListener((observable, oldValue, newValue) -> {
+    filteredData.setPredicate(reclamation -> {
+        if (newValue == null || newValue.isEmpty()) {
+            return true;
+        }
+
+        String lowerCaseFilter = newValue.toLowerCase();
+
+        if (reclamation.getNom().toLowerCase().contains(lowerCaseFilter)) {
+            return true;
+        }
+
+        return false;
+    });
+}*/
+        

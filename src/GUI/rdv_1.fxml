@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane id="AnchorPane" prefHeight="548.0" prefWidth="862.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tn.cliniq.gui.RdvController">
+    <children>
+        <Label fx:id="label" layoutX="126" layoutY="120" minHeight="16" minWidth="69" />
+      <VBox layoutX="25.0" layoutY="143.0" prefHeight="206.0" prefWidth="61.0" spacing="15.0">
+         <children>
+            <Label textFill="#26bcbc" />
+            <Label text="NOM" textFill="#26bcbc" />
+            <Label text="DATE RDV" textFill="#26bcbc" />
+         </children>
+      </VBox>
+      <VBox layoutX="86.0" layoutY="137.0" prefHeight="206.0" prefWidth="231.0" spacing="7.0">
+         <children>
+            <TextField fx:id="tfid" opacity="0.0" />
+            <TextField fx:id="tfnom" layoutX="10.0" layoutY="10.0" />
+            <DatePicker fx:id="dpdate" prefHeight="31.0" prefWidth="231.0" promptText=" entrez votre date de rdv" />
+         </children>
+      </VBox>
+      <TableView fx:id="tvrdv" layoutX="338.0" layoutY="98.0" onSort="#viewrdv" prefHeight="268.0" prefWidth="419.0">
+        <columns>
+          <TableColumn fx:id="colid" prefWidth="46.0" text="ID" />
+          <TableColumn fx:id="colnom" prefWidth="118.0" text="NOM" />
+            <TableColumn fx:id="coldate" prefWidth="164.0" text="DATE RDV" />
+        </columns>
+      </TableView>
+      <Button fx:id="btnadd" layoutX="25.0" layoutY="375.0" mnemonicParsing="false" onAction="#add" prefHeight="32.0" prefWidth="142.0" text="prendre rdv" textFill="#26bcbc" />
+      <Button fx:id="btnupdate" layoutX="25.0" layoutY="419.0" mnemonicParsing="false" onAction="#update" prefHeight="32.0" prefWidth="142.0" text="modifier" textFill="#26bcbc" />
+      <Button fx:id="btndelete" layoutX="25.0" layoutY="461.0" mnemonicParsing="false" onAction="#delete" prefHeight="32.0" prefWidth="142.0" text="supprimer" textFill="#26bcbc" />
+      <Label layoutX="172.0" layoutY="27.0" prefHeight="41.0" prefWidth="388.0" text="PRENDRE UN RENDEZ-VOUS" textFill="#26bcbc">
+         <font>
+            <Font size="27.0" />
+         </font>
+      </Label>
+      <ImageView fx:id="img1" fitHeight="98.0" fitWidth="114.0" layoutX="25.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@image0%20(1).png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="img2" fitHeight="25.0" fitWidth="29.0" layoutX="139.0" layoutY="379.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@image0%20(1).jpeg" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="img3" fitHeight="25.0" fitWidth="35.0" layoutX="136.0" layoutY="423.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@image1%20(2).jpeg" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="img4" fitHeight="25.0" fitWidth="32.0" layoutX="136.0" layoutY="465.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@image2%20(1).jpeg" />
+         </image>
+      </ImageView>
+      <Label layoutX="262.0" layoutY="399.0" text="RECHERCHE PAR NOM" textFill="#3bcdcd" />
+     <TextField fx:id="tfsearch" layoutX="401.0" layoutY="395.0" />
+      <Button fx:id="btnsearch" layoutX="570.0" layoutY="395.0" mnemonicParsing="false" onAction="#search" text="rechercher" textFill="#49c7d0" />
+      <Button fx:id="btnstat" layoutX="271.0" layoutY="453.0" mnemonicParsing="false" onAction="#showStatistics" text="STATISTIQUES" textFill="#24cdb6" />
+      <Button fx:id="btnqrcode" layoutX="412.0" layoutY="453.0" mnemonicParsing="false" onAction="#genererqrcode" prefHeight="25.0" prefWidth="149.0" text="GENERER QR CODE" textFill="#15d3c0" />
+    </children>
+</AnchorPane>

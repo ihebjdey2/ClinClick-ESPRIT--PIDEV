@@ -1,51 +1,57 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.Hyperlink?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
-<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
 
-<BorderPane prefHeight="600.0" prefWidth="900.0" stylesheets="@style.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.HomeController">
-
-    <top>
-        <HBox alignment="CENTER_LEFT" spacing="20.0" style="-fx-background-color: #343a40;">
-            <ImageView fitHeight="100.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true">
-                <image>
-                    <Image url="@unnamed.jpg" />
-                </image>
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="639.0" prefWidth="971.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.HomeController">
+   <children>
+      <VBox layoutY="132.0" prefHeight="507.0" prefWidth="293.0" style="-fx-background-color: #2b98ab;">
+         <children>
+            <ImageView fitHeight="56.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true" />
+            <Button mnemonicParsing="false" onAction="#rendez_vous" prefHeight="110.0" prefWidth="280.0" style="-fx-background-color: #2b98ab;" text="PRENDRE UN RENDEZ-VOUS">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Button>
+            <Button mnemonicParsing="false" onAction="#afficher_evnt" prefHeight="117.0" prefWidth="236.0" style="-fx-background-color: #2b98ab;" text="NOS EVENEMENTS">
+               <font>
+                  <Font size="16.0" />
+               </font>
+            </Button>
+            <Button mnemonicParsing="false" onAction="#addReclalamtion" prefHeight="117.0" prefWidth="236.0" style="-fx-background-color: #2b98ab;" text="FAIRE UNE RECLAMATION">
+               <font>
+                  <Font size="16.0" />
+               </font>
+            </Button>
+         </children>
+      </VBox>
+      <BorderPane layoutX="-7.0" layoutY="-24.0" prefHeight="119.0" prefWidth="982.0" style="-fx-background-color: #2b98ab;">
+         <right>
+            <ImageView fitHeight="148.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" BorderPane.alignment="CENTER">
+               <image>
+                  <Image url="@image0%20(1).png" />
+               </image>
             </ImageView>
-            <TextField promptText="Rechercher..." style="-fx-background-color: white;" />
-            <Button style="-fx-background-color: #007bff; -fx-text-fill: white;" text="Rechercher" />
-        </HBox>
-    </top>
-
-    <center>
-        <VBox alignment="CENTER" spacing="20.0">
-            <Label graphicTextGap="15.0" prefHeight="21.0" prefWidth="147.0" style="-fx-text-fill: blue;" text="Notre du site" textAlignment="CENTER" />
-            <Label style="-fx-font-size: 24pt;" text="CliniClic" />
-            <HBox alignment="CENTER" spacing="20.0">
-                <Button style="-fx-background-color: #007bff; -fx-text-fill: white;" text="Découvrir Le clinique" />
-                <Button style="-fx-background-color: #007bff; -fx-text-fill: white;" text="Nos Spécialités" />
-            </HBox>
-            <ImageView fitHeight="400.0" fitWidth="600.0" pickOnBounds="true" preserveRatio="true">
-                <image>
-                    <Image url="@logocliniclic.png" />
-                </image>
-            </ImageView>
-        </VBox>
-    </center>
-
-    <bottom>
-        <HBox alignment="CENTER" spacing="20.0" style="-fx-background-color: #343a40;">
-            <Label style="-fx-text-fill: white;" text="© 2023 - Tous droits réservés" />
-            <Hyperlink style="-fx-text-fill: white;" text="Politique de confidentialité" />
-            <Hyperlink style="-fx-text-fill: white;" text="Conditions d'utilisation" />
-        </HBox>
-    </bottom>
-
-</BorderPane>
+         </right>
+         <left>
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="CLINI-CLIC" textAlignment="CENTER" wrappingWidth="283.13671875" BorderPane.alignment="CENTER">
+               <font>
+                  <Font name="System Italic" size="25.0" />
+               </font>
+            </Text>
+         </left>
+      </BorderPane>
+      <ImageView fitHeight="416.0" fitWidth="721.0" layoutX="293.0" layoutY="132.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@images.jpg" />
+         </image>
+      </ImageView>
+      <Button layoutX="834.0" layoutY="584.0" style="-fx-background-color: #2b98ab; -fx-text-fill: white;" text="Déconnexion" />
+   </children>
+</AnchorPane>

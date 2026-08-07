@@ -4,22 +4,41 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="469.0" prefWidth="602.0" stylesheets="@style.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.LoginController">
+<AnchorPane prefHeight="469.0" prefWidth="602.0" stylesheets="@style.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.LoginController">
    <children>
-        <Label layoutX="228.0" layoutY="48.0" text="Connexion">
+        <Label layoutX="228.0" layoutY="48.0" text="Connexion" textFill="#fcf8f8">
             <font>
                 <Font size="18.0" />
             </font>
         </Label>
         <Label fx:id="errorLabel" layoutX="74.0" layoutY="142.0" styleClass="error-label" text="Label" visible="false" />
-        <TextField fx:id="tfmail" layoutX="200.0" layoutY="138.0" promptText="Email" />
-        <PasswordField fx:id="tfmdp" layoutX="200.0" layoutY="206.0" promptText="Mot de Passe" />
-        <Button fx:id="loginButton" layoutX="137.0" layoutY="309.0" mnemonicParsing="false" onAction="#handleLoginAction" prefHeight="30.0" prefWidth="126.0" styleClass="button" text="Se connecter" />
-        <Button fx:id="signupButton" layoutX="352.0" layoutY="309.0" mnemonicParsing="false" onAction="#handleSignupAction" prefHeight="30.0" prefWidth="132.0" styleClass="button" text="S'inscrire" />
-      <Label layoutX="87.0" layoutY="134.0" prefHeight="25.0" prefWidth="101.0" text="Email:" />
-      <Label layoutX="88.0" layoutY="210.0" prefHeight="25.0" prefWidth="64.0" text="Password:" />
+        <TextField fx:id="tfmail" layoutX="293.0" layoutY="138.0" promptText="Email" />
+        <PasswordField fx:id="tfmdp" layoutX="293.0" layoutY="210.0" promptText="Mot de Passe" />
+        <Button fx:id="Signup" layoutX="292.0" layoutY="296.0" mnemonicParsing="false" onAction="#handleLoginAction" prefHeight="30.0" prefWidth="158.0" style="-fx-background-color: #048B9A;" styleClass="button" text="Se connecter" textFill="#2b98ab" />
+        <Button fx:id="signupButton" layoutX="293.0" layoutY="351.0" mnemonicParsing="false" onAction="#handleSignupAction" prefHeight="30.0" prefWidth="158.0" style="-fx-background-color: #048B9A;" styleClass="button" text="S'inscrire" />
+      <Label layoutX="188.0" layoutY="138.0" prefHeight="25.0" prefWidth="101.0" text="Email:" textFill="#0d0c0c" />
+      <Label layoutX="188.0" layoutY="210.0" prefHeight="25.0" prefWidth="64.0" text="Password:" />
+      <ImageView fitHeight="96.0" fitWidth="149.0" layoutX="506.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@logocliniclic.png" />
+         </image>
+      </ImageView>
+      <VBox prefHeight="470.0" prefWidth="158.0" style="-fx-background-color: #2b98ab;">
+         <children>
+            <ImageView fitHeight="213.0" fitWidth="157.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../download.jpg" />
+               </image>
+            </ImageView>
+         </children>
+      </VBox>
+      
     </children>
+    
 </AnchorPane>

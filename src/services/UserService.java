@@ -17,6 +17,8 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Properties;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javax.mail.Message;
 import javax.mail.MessagingException;
 import javax.mail.PasswordAuthentication;
@@ -198,6 +200,30 @@ public User getUserByMail(String mail) throws SQLException {
 
     }  
 
+    public ObservableList<User> search3(String searchTerm) {
+    ObservableList<User> list = FXCollections.observableArrayList();
+    try {
+        String query = "SELECT * FROM user WHERE nom LIKE ?";
+        PreparedStatement preparedStatement = cnx.prepareStatement(query);
+        preparedStatement.setString(1, searchTerm + "%");
+        ResultSet rs = preparedStatement.executeQuery();
+        while (rs.next()) {
+            User user = new User(
+                    rs.getString(1), //assuming the id is the first column
+                    rs.getString(2), 
+                    rs.getString(3), 
+                    rs.getString(4),
+                    rs.getString(5)
+            );
+            list.add(user);
+        }
+    } catch (SQLException e) {
+        e.printStackTrace();
+    }
+    return list;
+}
+}
+
 
     
-}
+

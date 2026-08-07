@@ -62,94 +62,56 @@ public class LoginController implements Initializable {
     
 
     @FXML
-    private void handleLoginAction(ActionEvent event) throws IOException, SQLException {
-//    String name = usernameTextField.getText();
-//    String password = passwordTextField.getText();
-//    User user=new User();
-//    
-//    UserService userService = new UserService();
-//    if (user != null) {
-//    String roles = user.getRoles();
-//    if (roles.equals("Admin")) {
-//        FXMLLoader loader = new FXMLLoader(getClass().getResource("AfficheAdmin.fxml"));
-//                Parent root = loader.load();
-//                
-//                AfficheAdminController controller = loader.getController();
-//               // controller.setUtilisateur(utilisateur);
-//                
-//                Scene scene = new Scene(root);
-//                Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-//                stage.setScene(scene);
-//                stage.show();
-//        // Rediriger l'utilisateur vers la page d'administration
-//    } else if (roles.equals("Medecin")) {
-//        FXMLLoader loader = new FXMLLoader(getClass().getResource("Home.fxml"));
-//                Parent root = loader.load();
-//                
-//                HomeController controller = loader.getController();
-//               // controller.setUtilisateur(utilisateur);
-//                
-//                Scene scene = new Scene(root);
-//                Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-//                stage.setScene(scene);
-//                stage.show();
-//        // Rediriger l'utilisateur vers la page utilisateur
-//    } else if (!roles.equals("Patient")) {
-//         FXMLLoader loader = new FXMLLoader(getClass().getResource("Home.fxml"));
-//                Parent root = loader.load();
-//                
-//                HomeController controller = loader.getController();
-//               // controller.setUtilisateur(utilisateur);
-//                
-//                Scene scene = new Scene(root);
-//                Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-//                stage.setScene(scene);
-//                stage.show();
-//        
-//    }
-//   
-//} else {
-//    errorLabel.setText("Nom d'utilisateur ou mot de passe incorrect");
-//}
-////try {
-////        // Charger le fichier FXML de la page d'inscription
-////        FXMLLoader loader = new FXMLLoader(getClass().getResource("Home.fxml"));
-////        Parent root = loader.load();
-////        // Créer un nouveau stage pour la fenêtre d'inscription
-////        Stage stage = new Stage();
-////        Scene scene = new Scene(root);
-////        stage.setScene(scene);
-////         stage.setTitle("Page d'accueil");
-////        
-////        stage.show();
-////       
-////    } catch (IOException e) {
-////    }
-    String mail = tfmail.getText();       
+private void handleLoginAction(ActionEvent event) throws IOException, SQLException {
+
+    String mail = tfmail.getText();
     String mdp = hashPassword(tfmdp.getText());
-        
-        if (mail.equals("") || mdp.equals("")) {
-            showAlert(Alert.AlertType.ERROR, "Données erronés", "Verifier les données", "Veuillez bien renseigner tous les champs !");
-        } else {
-            u = us.getUserByMail(mail);
-            if (u != null) {
-                if (u.getPassword().equals(mdp)) {
 
-                    User.setCurrent_User(u);
-                    SessionUser.getInstace(u.getId(), u.getEmail(), u.getRoles(), u.getPassword(), u.getIs_verified(), u.getDate_naissance(), u.getNom(), u.getPrenom(), u.getGenre() );
-                    
-                    root = FXMLLoader.load(getClass().getResource("Home.fxml"));
-                    stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-                    Scene scene = new Scene(root);
-                    stage.setScene(scene);
-                    stage.show();
+    if (mail.equals("") || mdp.equals("")) {
+        showAlert(Alert.AlertType.ERROR, "Données erronés", "Verifier les données", "Veuillez bien renseigner tous les champs !");
+    } else {
+        User user = us.getUserByMail(mail);
+        if (user != null && user.getPassword().equals(mdp)) {
+            User.setCurrent_User(user);
+            SessionUser.getInstace(user.getId(), user.getEmail(), user.getRoles(), user.getPassword(), user.getIs_verified(), user.getDate_naissance(), user.getNom(), user.getPrenom(), user.getGenre());
 
-                } else {
-                    showAlert(Alert.AlertType.ERROR, "Données erronés", "Verifier les données", "Mot de passe invalide!");
-                }
+            FXMLLoader loader = null;
+            Parent root = null;
+            Scene scene = null;
+            Stage stage = null;
+
+            String roles = user.getRoles();
+            if (roles.equals("Admin")) {
+                loader = new FXMLLoader(getClass().getResource("AfficheAdmiin.fxml"));
+                root = loader.load();
+                AfficheAdminController controller = loader.getController();
+                stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            } else if (roles.equals("Medecin")) {
+                loader = new FXMLLoader(getClass().getResource("Home.fxml"));
+                root = loader.load();
+                HomeController controller = loader.getController();
+                stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            } else if (roles.equals("Patient")) {
+                loader = new FXMLLoader(getClass().getResource("home.fxml"));
+                root = loader.load();
+                HomeController controller = loader.getController();
+                stage = new Stage();
+            } else {
+                showAlert(Alert.AlertType.ERROR, "Erreur de connexion", "Erreur de connexion", "Impossible de déterminer le rôle de l'utilisateur.");
             }
+
+            if (loader != null && root != null && stage != null) {
+                scene = new Scene(root);
+                stage.setScene(scene);
+                stage.show();
+            }
+
+        } else {
+            showAlert(Alert.AlertType.ERROR, "Données erronées", "Vérifier les données", "Nom d'utilisateur ou mot de passe incorrect.");
         }
     }
+}
+
 
    
    @FXML
@@ -180,4 +142,5 @@ private void handleSignupAction(ActionEvent event) {
         alert.showAndWait();
 
     }   
+ 
 }
