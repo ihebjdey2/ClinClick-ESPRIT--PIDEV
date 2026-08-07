@@ -1,0 +1,41 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Disponibilités médicales | CliniClic{% endblock %}
+
+{% block body %}
+<main id="main" class="main">
+  <div class="pagetitle d-flex flex-wrap justify-content-between align-items-center gap-3">
+    <div><h1>Disponibilités médicales</h1><p class="text-muted mb-0">Définissez les plages utilisables pour la prise de rendez-vous.</p></div>
+    <a class="btn btn-primary" href="{{ path('app_doctor_availability_new') }}">Ajouter une disponibilité</a>
+  </div>
+  {% for label, messages in app.flashes %}{% for message in messages %}<div class="alert alert-{{ label == 'warning' ? 'warning' : 'success' }}" role="alert">{{ message }}</div>{% endfor %}{% endfor %}
+  <section class="section">
+    <div class="card"><div class="card-body pt-3">
+      <div class="table-responsive">
+        <table class="table table-hover align-middle mb-0">
+          <thead><tr>{% if is_granted('ROLE_ADMIN') %}<th>Médecin</th>{% endif %}<th>Jour</th><th>Plage</th><th>État</th><th class="text-end">Actions</th></tr></thead>
+          <tbody>
+            {% for availability in availabilities %}
+              <tr>
+                {% if is_granted('ROLE_ADMIN') %}<td>Dr {{ availability.doctor.fullName }}</td>{% endif %}
+                <td>{{ availability.dayLabel }}</td>
+                <td>{{ availability.startTime|date('H:i') }} — {{ availability.endTime|date('H:i') }}</td>
+                <td><span class="badge {{ availability.active ? 'bg-success' : 'bg-secondary' }}">{{ availability.active ? 'Active' : 'Inactive' }}</span></td>
+                <td class="text-end"><div class="d-inline-flex gap-2">
+                  <a class="btn btn-sm btn-outline-primary" href="{{ path('app_doctor_availability_edit', {id: availability.id}) }}">Modifier</a>
+                  <form method="post" action="{{ path('app_doctor_availability_delete', {id: availability.id}) }}" onsubmit="return confirm('Supprimer cette disponibilité ?');">
+                    <input type="hidden" name="_token" value="{{ csrf_token('delete-availability-' ~ availability.id) }}">
+                    <button type="submit" class="btn btn-sm btn-outline-danger">Supprimer</button>
+                  </form>
+                </div></td>
+              </tr>
+            {% else %}
+              <tr><td colspan="{{ is_granted('ROLE_ADMIN') ? 5 : 4 }}" class="text-center text-muted py-5">Aucune disponibilité enregistrée.</td></tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div></div>
+  </section>
+</main>
+{% endblock %}

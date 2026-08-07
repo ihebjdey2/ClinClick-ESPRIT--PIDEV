@@ -1,0 +1,42 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Mon profil | CliniClic{% endblock %}
+
+{% block body %}
+<main id="main" class="main">
+  <div class="pagetitle">
+    <h1>Mon profil</h1>
+    <p class="text-muted">Maintenez vos informations administratives à jour.</p>
+  </div>
+
+  {% for message in app.flashes('success') %}
+    <div class="alert alert-success" role="alert">{{ message }}</div>
+  {% endfor %}
+
+  <section class="section">
+    <div class="row g-4">
+      <div class="col-lg-4">
+        <div class="card"><div class="card-body text-center pt-4">
+          <div class="profile-avatar mx-auto mb-3" aria-hidden="true">{{ user.prenom|first|upper }}{{ user.nom|first|upper }}</div>
+          <h2 class="h5 mb-1">{{ user.fullName }}</h2>
+          <p class="text-muted mb-0">{{ user.email }}</p>
+        </div></div>
+      </div>
+      <div class="col-lg-8">
+        <div class="card"><div class="card-body pt-4">
+          {{ form_start(profileForm) }}
+            <div class="row g-3">
+              <div class="col-md-6">{{ form_row(profileForm.prenom) }}</div>
+              <div class="col-md-6">{{ form_row(profileForm.nom) }}</div>
+              <div class="col-12">{{ form_row(profileForm.email) }}</div>
+              <div class="col-md-6">{{ form_row(profileForm.dateNaissance) }}</div>
+              <div class="col-md-6">{{ form_row(profileForm.genre) }}</div>
+            </div>
+            <button class="btn btn-primary" type="submit">Enregistrer les modifications</button>
+          {{ form_end(profileForm) }}
+        </div></div>
+      </div>
+    </div>
+  </section>
+</main>
+{% endblock %}

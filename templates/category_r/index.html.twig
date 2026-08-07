@@ -1,0 +1,17 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Types de rendez-vous | CliniClic{% endblock %}
+
+{% block body %}
+<main id="main" class="main">
+  <div class="pagetitle d-flex flex-wrap justify-content-between align-items-center gap-3"><div><h1>Types de rendez-vous</h1><p class="text-muted mb-0">Configurez les motifs proposés lors de la réservation.</p></div><a href="{{ path('app_categoryR_new') }}" class="btn btn-primary"><i class="bi bi-plus-lg me-1" aria-hidden="true"></i> Ajouter un type</a></div>
+  {{ include('components/_flash.html.twig') }}
+  <section class="section"><div class="row g-4">
+    <div class="col-xl-7"><div class="card h-100"><div class="card-body pt-3"><div class="table-responsive"><table class="table table-hover align-middle mb-0">
+      <thead><tr><th>Nom</th><th>Rendez-vous liés</th><th class="text-end">Actions</th></tr></thead>
+      <tbody>{% for category in categories %}<tr><td><strong>{{ category.nom }}</strong></td><td>{{ category.RDVs|length }}</td><td class="text-end"><div class="d-inline-flex flex-wrap justify-content-end gap-2"><a href="{{ path('app_categoryR_edit', {id: category.id}) }}" class="btn btn-sm btn-outline-primary">Modifier</a><form method="post" action="{{ path('app_categoryR_delete', {id: category.id}) }}" onsubmit="return confirm('Supprimer ce type de rendez-vous ?');"><input type="hidden" name="_token" value="{{ csrf_token('delete-appointment-category-' ~ category.id) }}"><button type="submit" class="btn btn-sm btn-outline-danger">Supprimer</button></form></div></td></tr>{% else %}<tr><td colspan="3" class="text-center text-muted py-5">Aucun type de rendez-vous enregistré.</td></tr>{% endfor %}</tbody>
+    </table></div></div></div></div>
+    <div class="col-xl-5"><div class="card h-100"><div class="card-body pt-4"><h2 class="h5">Utilisation par type</h2><p class="small text-muted">Vue calculée à partir des rendez-vous réels.</p><div class="d-grid gap-3 mt-4">{% for category in categories %}{% set count = category.RDVs|length %}<div><div class="d-flex justify-content-between small mb-1"><span>{{ category.nom }}</span><strong>{{ count }}</strong></div><div class="progress" role="progressbar" aria-label="{{ category.nom }}" aria-valuenow="{{ count }}" aria-valuemin="0" aria-valuemax="{{ maximum_appointments ?: 1 }}"><div class="progress-bar" style="width: {{ maximum_appointments ? (count / maximum_appointments * 100)|round : 0 }}%"></div></div></div>{% else %}<p class="text-muted text-center py-4">Aucune donnée à afficher.</p>{% endfor %}</div></div></div></div>
+  </div></section>
+</main>
+{% endblock %}

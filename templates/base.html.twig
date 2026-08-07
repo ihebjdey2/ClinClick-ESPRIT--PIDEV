@@ -1,0 +1,128 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="CliniClic — gestion sécurisée et responsable de la clinique">
+  <meta name="robots" content="noindex, nofollow">
+  <title>{% block title %}CliniClic{% endblock %}</title>
+  <link href="{{ asset('assets/img/favicon.png') }}" rel="icon">
+  <link href="{{ asset('assets/img/apple-touch-icon.png') }}" rel="apple-touch-icon">
+
+  {% block stylesheets %}
+    <link href="{{ asset('assets/vendor/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('assets/vendor/bootstrap-icons/bootstrap-icons.css') }}" rel="stylesheet">
+    <link href="{{ asset('assets/css/style.css') }}" rel="stylesheet">
+    <link href="{{ asset('assets/css/clinic.css') }}" rel="stylesheet">
+  {% endblock %}
+</head>
+<body>
+  {% set currentRoute = app.request.attributes.get('_route')|default('') %}
+  {% set roleLabel = is_granted('ROLE_ADMIN') ? 'Administrateur' : (is_granted('ROLE_DOCTOR') ? 'Médecin' : (is_granted('ROLE_RECEPTIONIST') ? 'Réceptionniste' : (is_granted('ROLE_PATIENT') ? 'Patient' : 'Utilisateur'))) %}
+
+  <header id="header" class="header fixed-top d-flex align-items-center">
+    <div class="d-flex align-items-center justify-content-between">
+      <a href="{{ app.user ? path('app_index') : path('appHome') }}" class="logo d-flex align-items-center" aria-label="Accueil CliniClic">
+        <img src="{{ asset('assets/img/logo.png') }}" alt="">
+        <span class="d-none d-lg-block">CliniClic</span>
+      </a>
+      {% if app.user %}<button class="toggle-sidebar-btn btn border-0 p-2" type="button" aria-label="Afficher ou masquer le menu" aria-controls="sidebar" aria-expanded="true"><i class="bi bi-list" aria-hidden="true"></i></button>{% endif %}
+    </div>
+
+    <nav class="header-nav ms-auto" aria-label="Compte utilisateur">
+      {% if app.user %}
+        <div class="dropdown pe-3">
+          <button class="nav-link nav-profile d-flex align-items-center pe-0 border-0 bg-transparent" data-bs-toggle="dropdown" aria-expanded="false">
+            <span class="profile-avatar" aria-hidden="true">{{ app.user.prenom|first|upper }}{{ app.user.nom|first|upper }}</span>
+            <span class="d-none d-md-block dropdown-toggle ps-2">{{ app.user.fullName }}</span>
+          </button>
+          <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
+            <li class="dropdown-header">
+              <h6>{{ app.user.fullName }}</h6>
+              <span>{{ roleLabel }}</span>
+            </li>
+            <li><hr class="dropdown-divider"></li>
+            <li><a class="dropdown-item d-flex align-items-center" href="{{ path('app_profile') }}"><i class="bi bi-person"></i><span>Mon profil</span></a></li>
+            <li><hr class="dropdown-divider"></li>
+            <li>
+              <form method="post" action="{{ path('app_logout') }}">
+                <input type="hidden" name="_csrf_token" value="{{ csrf_token('logout') }}">
+                <button class="dropdown-item d-flex align-items-center" type="submit"><i class="bi bi-box-arrow-right"></i><span>Se déconnecter</span></button>
+              </form>
+            </li>
+          </ul>
+        </div>
+      {% else %}
+        <a class="btn btn-primary me-3" href="{{ path('app_login') }}">Se connecter</a>
+      {% endif %}
+    </nav>
+  </header>
+
+  {% if app.user %}
+    <aside id="sidebar" class="sidebar">
+      <ul class="sidebar-nav" id="sidebar-nav">
+        <li class="nav-heading">Espace {{ roleLabel|lower }}</li>
+        <li class="nav-item">
+          <a class="nav-link {{ currentRoute == 'app_index' ? '' : 'collapsed' }}" href="{{ path('app_index') }}">
+            <i class="bi bi-grid" aria-hidden="true"></i><span>Tableau de bord</span>
+          </a>
+        </li>
+        {% if is_granted('ROLE_DOCTOR') or is_granted('ROLE_ADMIN') %}
+          <li class="nav-item"><a class="nav-link {{ currentRoute starts with 'app_doctor_availability_' ? '' : 'collapsed' }}" href="{{ path('app_doctor_availability_index') }}"><i class="bi bi-clock" aria-hidden="true"></i><span>Disponibilités</span></a></li>
+        {% endif %}
+        <li class="nav-item">
+          <a class="nav-link {{ currentRoute starts with 'app_RDV_' ? '' : 'collapsed' }}" href="{{ path('app_RDV_index') }}">
+            <i class="bi bi-calendar3" aria-hidden="true"></i><span>Rendez-vous</span>
+          </a>
+        </li>
+        {% if is_granted('ROLE_DOCTOR') or is_granted('ROLE_PATIENT') %}
+          <li class="nav-item">
+            <a class="nav-link {{ currentRoute starts with 'app_consultation_' or currentRoute starts with 'app_prescription_' ? '' : 'collapsed' }}" href="{{ path('app_consultation_index') }}">
+              <i class="bi bi-file-medical" aria-hidden="true"></i><span>Dossier médical</span>
+            </a>
+          </li>
+        {% endif %}
+        <li class="nav-item">
+          <a class="nav-link {{ currentRoute == 'app_evenement_index' ? '' : 'collapsed' }}" href="{{ path('app_evenement_index') }}">
+            <i class="bi bi-megaphone" aria-hidden="true"></i><span>Événements</span>
+          </a>
+        </li>
+
+        {% if is_granted('ROLE_ADMIN') %}
+          <li class="nav-heading">Administration</li>
+          <li class="nav-item"><a class="nav-link {{ currentRoute starts with 'app_admin_user_' ? '' : 'collapsed' }}" href="{{ path('app_admin_user_index') }}"><i class="bi bi-people" aria-hidden="true"></i><span>Utilisateurs</span></a></li>
+          <li class="nav-item"><a class="nav-link {{ currentRoute in ['display_stock', 'add_stock', 'add_med', 'add_equipement', 'modif_stock'] ? '' : 'collapsed' }}" href="{{ path('display_stock') }}"><i class="bi bi-box-seam" aria-hidden="true"></i><span>Stock</span></a></li>
+          <li class="nav-item"><a class="nav-link {{ currentRoute == 'display_categorie' ? '' : 'collapsed' }}" href="{{ path('display_categorie') }}"><i class="bi bi-tags" aria-hidden="true"></i><span>Catégories de stock</span></a></li>
+          <li class="nav-item"><a class="nav-link {{ currentRoute starts with 'app_categoryR_' ? '' : 'collapsed' }}" href="{{ path('app_categoryR_index') }}"><i class="bi bi-calendar2-week" aria-hidden="true"></i><span>Types de rendez-vous</span></a></li>
+          <li class="nav-item"><a class="nav-link {{ currentRoute starts with 'app_category_' ? '' : 'collapsed' }}" href="{{ path('app_category_index') }}"><i class="bi bi-bookmarks" aria-hidden="true"></i><span>Catégories d'événements</span></a></li>
+          <li class="nav-item"><a class="nav-link {{ currentRoute == 'app_evenement_indexFront' ? '' : 'collapsed' }}" href="{{ path('app_evenement_indexFront') }}"><i class="bi bi-calendar-event" aria-hidden="true"></i><span>Gérer les événements</span></a></li>
+        {% endif %}
+
+        {% if is_granted('ROLE_ADMIN') or is_granted('ROLE_RECEPTIONIST') %}
+          <li class="nav-heading">Accueil administratif</li>
+          <li class="nav-item"><a class="nav-link {{ currentRoute == 'app_reclamation' ? '' : 'collapsed' }}" href="{{ path('app_reclamation') }}"><i class="bi bi-chat-left-text" aria-hidden="true"></i><span>Réclamations</span></a></li>
+          <li class="nav-item"><a class="nav-link {{ currentRoute == 'app_reponse' ? '' : 'collapsed' }}" href="{{ path('app_reponse') }}"><i class="bi bi-reply" aria-hidden="true"></i><span>Réponses</span></a></li>
+          <li class="nav-item"><a class="nav-link {{ currentRoute == 'app_categorieReclamation' ? '' : 'collapsed' }}" href="{{ path('app_categorieReclamation') }}"><i class="bi bi-folder" aria-hidden="true"></i><span>Catégories de réclamation</span></a></li>
+        {% endif %}
+
+        <li class="nav-heading">Compte</li>
+        <li class="nav-item"><a class="nav-link {{ currentRoute == 'app_profile' ? '' : 'collapsed' }}" href="{{ path('app_profile') }}"><i class="bi bi-person" aria-hidden="true"></i><span>Mon profil</span></a></li>
+        <li class="nav-item"><a class="nav-link collapsed" href="{{ path('appHome') }}"><i class="bi bi-globe" aria-hidden="true"></i><span>Site public</span></a></li>
+      </ul>
+    </aside>
+  {% endif %}
+
+  {% block body %}{% endblock %}
+
+  {% if app.user %}
+    <footer id="footer" class="footer">
+      <div class="copyright">&copy; {{ 'now'|date('Y') }} <strong>CliniClic</strong> — Projet académique.</div>
+    </footer>
+  {% endif %}
+
+  {% block javascripts %}
+    <script src="{{ asset('assets/vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+    <script src="{{ asset('assets/js/clinic.js') }}"></script>
+  {% endblock %}
+</body>
+</html>

@@ -1,0 +1,70 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Consultation du {{ consultation.consultedAt|date('d/m/Y') }} | CliniClic{% endblock %}
+
+{% block body %}
+{% set appointment = consultation.appointment %}
+<main id="main" class="main">
+  <div class="pagetitle d-flex flex-wrap justify-content-between align-items-start gap-3">
+    <div><h1>Consultation du {{ consultation.consultedAt|date('d/m/Y') }}</h1><p class="text-muted mb-0">Dossier médical confidentiel</p></div>
+    <div class="d-flex flex-wrap gap-2">
+      {% if is_granted('CONSULTATION_EDIT', consultation) %}
+        <a class="btn btn-outline-primary" href="{{ path('app_consultation_edit', {id: consultation.id}) }}">Modifier</a>
+        <a class="btn btn-primary" href="{{ path('app_prescription_new', {id: consultation.id}) }}">Ajouter une prescription</a>
+      {% endif %}
+      <a class="btn btn-outline-secondary" href="{{ path('app_consultation_index') }}">Retour</a>
+    </div>
+  </div>
+
+  {% for label, messages in app.flashes %}
+    {% for message in messages %}<div class="alert alert-{{ label == 'warning' ? 'warning' : 'success' }}" role="alert">{{ message }}</div>{% endfor %}
+  {% endfor %}
+
+  <section class="section">
+    <div class="row g-4">
+      <div class="col-lg-8">
+        <article class="card h-100"><div class="card-body pt-4">
+          <h2 class="h5">Synthèse médicale</h2>
+          <dl class="row mb-0">
+            <dt class="col-sm-4">Diagnostic / constat</dt><dd class="col-sm-8">{{ consultation.diagnosis }}</dd>
+            <dt class="col-sm-4">Notes cliniques</dt><dd class="col-sm-8 text-pre-wrap">{{ consultation.clinicalNotes|nl2br }}</dd>
+          </dl>
+        </div></article>
+      </div>
+      <div class="col-lg-4">
+        <aside class="card h-100"><div class="card-body pt-4">
+          <h2 class="h5">Contexte</h2>
+          <dl class="mb-0">
+            <dt>Patient</dt><dd>{{ appointment.patient.fullName }}</dd>
+            <dt>Médecin</dt><dd>Dr {{ appointment.doctor.fullName }}</dd>
+            <dt>Date</dt><dd>{{ consultation.consultedAt|date('d/m/Y à H:i') }}</dd>
+            <dt>Motif initial</dt><dd>{{ appointment.nom }}</dd>
+          </dl>
+        </div></aside>
+      </div>
+    </div>
+
+    <div class="card mt-4"><div class="card-body pt-4">
+      <h2 class="h5">Prescriptions</h2>
+      <div class="table-responsive">
+        <table class="table align-middle">
+          <thead><tr><th>Médicament</th><th>Dosage</th><th>Fréquence</th><th>Période</th><th>Instructions</th></tr></thead>
+          <tbody>
+          {% for prescription in consultation.prescriptions %}
+            <tr>
+              <td><strong>{{ prescription.medication }}</strong></td>
+              <td>{{ prescription.dosage }}</td>
+              <td>{{ prescription.frequency }}</td>
+              <td>{{ prescription.startDate|date('d/m/Y') }}{% if prescription.endDate %} – {{ prescription.endDate|date('d/m/Y') }}{% endif %}</td>
+              <td>{{ prescription.instructions ?: '—' }}</td>
+            </tr>
+          {% else %}
+            <tr><td colspan="5" class="text-center text-muted py-4">Aucune prescription pour cette consultation.</td></tr>
+          {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div></div>
+  </section>
+</main>
+{% endblock %}

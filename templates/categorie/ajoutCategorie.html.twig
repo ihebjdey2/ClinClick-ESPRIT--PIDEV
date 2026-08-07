@@ -1,0 +1,24 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ categorie is defined ? 'Modifier' : 'Ajouter' }} une catégorie | CliniClic{% endblock %}
+
+{% block body %}
+<main id="main" class="main">
+  <div class="pagetitle">
+    <h1>{{ categorie is defined ? 'Modifier la catégorie' : 'Ajouter une catégorie' }}</h1>
+    <p class="text-muted">Utilisez un libellé court et explicite.</p>
+  </div>
+  <section class="section">
+    <div class="row justify-content-center">
+      <div class="col-lg-7 col-xl-5">
+        <div class="card"><div class="card-body pt-4">
+          {{ form_start(f) }}
+            {{ form_widget(f) }}
+          {{ form_end(f) }}
+          <a class="btn btn-link px-0" href="{{ path('display_categorie') }}">Retour aux catégories</a>
+        </div></div>
+      </div>
+    </div>
+  </section>
+</main>
+{% endblock %}

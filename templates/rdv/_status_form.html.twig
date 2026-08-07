@@ -1,0 +1,4 @@
+<form method="post" action="{{ path('app_RDV_status', {id: appointment.id, status: status}) }}">
+  <input type="hidden" name="_token" value="{{ csrf_token('status-appointment-' ~ appointment.id) }}">
+  <button type="submit" class="btn btn-sm {{ buttonClass }}">{{ label }}</button>
+</form>

@@ -1,0 +1,32 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ pageTitle }} | CliniClic{% endblock %}
+
+{% block body %}
+<main id="main" class="main">
+  <div class="pagetitle"><h1>{{ pageTitle }}</h1><p class="text-muted">Attribuez uniquement les rôles nécessaires aux missions du compte.</p></div>
+  <section class="section">
+    <div class="row justify-content-center"><div class="col-xl-8">
+      <div class="card"><div class="card-body pt-4">
+        {{ form_start(userForm) }}
+          <div class="row g-3">
+            <div class="col-md-6">{{ form_row(userForm.prenom) }}</div>
+            <div class="col-md-6">{{ form_row(userForm.nom) }}</div>
+            <div class="col-12">{{ form_row(userForm.email) }}</div>
+            <div class="col-md-6">{{ form_row(userForm.dateNaissance) }}</div>
+            <div class="col-md-6">{{ form_row(userForm.genre) }}</div>
+            <div class="col-12">{{ form_row(userForm.roles) }}</div>
+            <div class="col-12">{{ form_row(userForm.isVerified) }}</div>
+            <div class="col-12">{{ form_row(userForm.plainPassword.first) }}</div>
+            <div class="col-12">{{ form_row(userForm.plainPassword.second) }}</div>
+          </div>
+          <div class="d-flex flex-wrap gap-2">
+            <button class="btn btn-primary" type="submit">Enregistrer</button>
+            <a class="btn btn-outline-secondary" href="{{ path('app_admin_user_index') }}">Annuler</a>
+          </div>
+        {{ form_end(userForm) }}
+      </div></div>
+    </div></div>
+  </section>
+</main>
+{% endblock %}

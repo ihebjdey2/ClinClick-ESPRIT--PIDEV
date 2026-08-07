@@ -1,0 +1,4 @@
+{% set error_code = status_code|default(500) %}
+{% set error_title = 'Une erreur est survenue' %}
+{% set error_message = "La demande n'a pas pu être traitée. Réessayez dans quelques instants." %}
+{% include 'bundles/TwigBundle/Exception/_error_layout.html.twig' %}

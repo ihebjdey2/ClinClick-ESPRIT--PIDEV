@@ -1,0 +1,25 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Stock | CliniClic{% endblock %}
+
+{% block body %}
+<main id="main" class="main">
+  <div class="pagetitle d-flex flex-wrap justify-content-between align-items-center gap-3"><div><h1>Stock médical</h1><p class="text-muted mb-0">Suivez les médicaments et équipements disponibles.</p></div><a class="btn btn-primary" href="{{ path('choix') }}"><i class="bi bi-plus-lg me-1" aria-hidden="true"></i> Ajouter au stock</a></div>
+  {{ include('components/_flash.html.twig') }}
+  <section class="section"><div class="card"><div class="card-body pt-3">
+    <form method="get" class="row g-2 align-items-end mb-4" role="search">
+      <div class="col-md-5"><label class="form-label" for="stock-search">Rechercher</label><input id="stock-search" class="form-control" type="search" name="q" value="{{ searchTerm }}" placeholder="Produit ou catégorie"></div>
+      <div class="col-sm-6 col-md-3"><label class="form-label" for="stock-kind">Type</label><select id="stock-kind" class="form-select" name="kind"><option value="">Tous</option><option value="medicine" {{ selectedKind == 'medicine' ? 'selected' }}>Médicaments</option><option value="equipment" {{ selectedKind == 'equipment' ? 'selected' }}>Équipements</option></select></div>
+      <div class="col-sm-6 col-md-2"><label class="form-label" for="stock-category">Catégorie</label><select id="stock-category" class="form-select" name="category"><option value="">Toutes</option>{% for category in categories %}<option value="{{ category.id }}" {{ selectedCategory == category.id ? 'selected' }}>{{ category.libelle }}</option>{% endfor %}</select></div>
+      <div class="col-auto"><button class="btn btn-outline-primary" type="submit">Appliquer</button></div>
+    </form>
+    <div class="table-responsive"><table class="table table-hover align-middle mb-0"><thead><tr><th>Produit</th><th>Type</th><th>Catégorie</th><th>Total</th><th>Disponible</th><th>Expiration</th><th class="text-end">Actions</th></tr></thead><tbody>
+      {% for stock in stocks %}
+        {% set isMedicine = stock.dateExpiration is not null %}
+        <tr><td><strong>{{ stock.produit }}</strong></td><td><span class="badge {{ isMedicine ? 'bg-info-subtle text-info-emphasis' : 'bg-secondary-subtle text-secondary-emphasis' }}">{{ isMedicine ? 'Médicament' : 'Équipement' }}</span></td><td>{{ stock.categorie }}</td><td>{{ stock.quantite }}</td><td>{% set available = stock.quantiteDisponible ?? stock.quantite %}<span class="{{ available <= 5 ? 'text-danger fw-semibold' }}">{{ available }}</span></td><td>{{ isMedicine ? stock.dateExpiration|date('d/m/Y') : '—' }}</td><td class="text-end">{{ include('stock/_actions.html.twig', {stock: stock}) }}</td></tr>
+      {% else %}<tr><td colspan="7" class="text-center text-muted py-5">Aucun produit ne correspond à ces critères.</td></tr>{% endfor %}
+    </tbody></table></div>
+    <div class="d-flex justify-content-center mt-3">{{ knp_pagination_render(stocks) }}</div>
+  </div></div></section>
+</main>
+{% endblock %}

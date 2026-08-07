@@ -1,0 +1,50 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Catégories de réclamation | CliniClic{% endblock %}
+
+{% block body %}
+<main id="main" class="main">
+  <div class="pagetitle d-flex flex-wrap justify-content-between align-items-center gap-3">
+    <div>
+      <h1>Catégories de réclamation</h1>
+      <p class="text-muted mb-0">Classez les demandes reçues par le service administratif.</p>
+    </div>
+    <a class="btn btn-primary" href="{{ path('addCategorieReclamation') }}">Ajouter une catégorie</a>
+  </div>
+
+  {% for label, messages in app.flashes %}
+    {% for message in messages %}
+      <div class="alert alert-{{ label == 'warning' ? 'warning' : 'success' }}" role="alert">{{ message }}</div>
+    {% endfor %}
+  {% endfor %}
+
+  <section class="section">
+    <div class="card"><div class="card-body pt-3">
+      <div class="table-responsive">
+        <table class="table table-hover align-middle">
+          <thead><tr><th scope="col">Nom</th><th scope="col" class="text-end">Actions</th></tr></thead>
+          <tbody>
+            {% for category in categories %}
+              <tr>
+                <td>{{ category.nom }}</td>
+                <td class="text-end">
+                  <div class="d-inline-flex flex-wrap justify-content-end gap-2">
+                    <a class="btn btn-sm btn-outline-primary" href="{{ path('updateCategorieReclamation', {id: category.id}) }}">Modifier</a>
+                    <form method="post" action="{{ path('suprimerCategorieReclamation', {id: category.id}) }}" onsubmit="return confirm('Supprimer cette catégorie ?');">
+                      <input type="hidden" name="_token" value="{{ csrf_token('delete-complaint-category-' ~ category.id) }}">
+                      <button class="btn btn-sm btn-outline-danger" type="submit">Supprimer</button>
+                    </form>
+                  </div>
+                </td>
+              </tr>
+            {% else %}
+              <tr><td colspan="2" class="text-center text-muted py-5">Aucune catégorie enregistrée.</td></tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+      <div class="d-flex justify-content-center">{{ knp_pagination_render(categories) }}</div>
+    </div></div>
+  </section>
+</main>
+{% endblock %}

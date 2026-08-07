@@ -1,0 +1,32 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Catégorie de réclamation | CliniClic{% endblock %}
+
+{% block body %}
+  <main id="main" class="main">
+    <div class="pagetitle">
+      <h1>Catégorie de réclamation</h1>
+      <nav aria-label="Fil d’Ariane">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="{{ path('app_index') }}">Accueil</a></li>
+          <li class="breadcrumb-item active" aria-current="page">Catégories de réclamation</li>
+        </ol>
+      </nav>
+    </div>
+
+    <section class="section">
+      <div class="row justify-content-center">
+        <div class="col-lg-8">
+          <div class="card">
+            <div class="card-body pt-4">
+              {{ form_start(f) }}
+                {{ form_widget(f) }}
+                <button type="submit" class="btn btn-primary mt-3">Enregistrer</button>
+              {{ form_end(f) }}
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+{% endblock %}

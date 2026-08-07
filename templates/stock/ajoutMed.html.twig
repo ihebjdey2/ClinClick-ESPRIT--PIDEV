@@ -1,0 +1,5 @@
+{% extends 'base.html.twig' %}
+{% block title %}Ajouter un médicament | CliniClic{% endblock %}
+{% block body %}
+  {{ include('stock/_form.html.twig', {form: f, title: 'Ajouter un médicament'}) }}
+{% endblock %}

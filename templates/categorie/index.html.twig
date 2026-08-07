@@ -1,0 +1,65 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Catégories de stock | CliniClic{% endblock %}
+
+{% block body %}
+<main id="main" class="main">
+  <div class="pagetitle d-flex flex-wrap justify-content-between align-items-center gap-3">
+    <div>
+      <h1>Catégories de stock</h1>
+      <p class="text-muted mb-0">Organisez les médicaments et les équipements.</p>
+    </div>
+    <a class="btn btn-primary" href="{{ path('add_categorie') }}">
+      <i class="bi bi-plus-lg me-1" aria-hidden="true"></i> Ajouter une catégorie
+    </a>
+  </div>
+
+  {% for label, messages in app.flashes %}
+    {% for message in messages %}
+      <div class="alert alert-{{ label == 'warning' ? 'warning' : 'success' }} alert-dismissible fade show" role="alert">
+        {{ message }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Fermer"></button>
+      </div>
+    {% endfor %}
+  {% endfor %}
+
+  <section class="section">
+    <div class="card">
+      <div class="card-body pt-3">
+        <div class="table-responsive">
+          <table class="table table-hover align-middle mb-0">
+            <thead>
+              <tr>
+                <th scope="col">Libellé</th>
+                <th scope="col" class="text-end">Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for categorie in categories %}
+                <tr>
+                  <td>{{ categorie.libelle }}</td>
+                  <td class="text-end">
+                    <div class="d-inline-flex flex-wrap justify-content-end gap-2">
+                      <a class="btn btn-sm btn-outline-primary" href="{{ path('modif_categorie', {id: categorie.id}) }}">Modifier</a>
+                      <form method="post" action="{{ path('supp_categorie', {id: categorie.id}) }}" onsubmit="return confirm('Supprimer cette catégorie ?');">
+                        <input type="hidden" name="_token" value="{{ csrf_token('delete-category-' ~ categorie.id) }}">
+                        <button class="btn btn-sm btn-outline-danger" type="submit">Supprimer</button>
+                      </form>
+                    </div>
+                  </td>
+                </tr>
+              {% else %}
+                <tr>
+                  <td colspan="2" class="text-center text-muted py-5">
+                    Aucune catégorie enregistrée.
+                  </td>
+                </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+{% endblock %}

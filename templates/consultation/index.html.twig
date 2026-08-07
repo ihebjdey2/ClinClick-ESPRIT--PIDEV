@@ -1,0 +1,45 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Dossier médical | CliniClic{% endblock %}
+
+{% block body %}
+<main id="main" class="main">
+  <div class="pagetitle">
+    <h1>Dossier médical</h1>
+    <p class="text-muted mb-0">Accès confidentiel limité aux consultations qui vous concernent.</p>
+  </div>
+
+  {% for label, messages in app.flashes %}
+    {% for message in messages %}<div class="alert alert-{{ label == 'warning' ? 'warning' : 'success' }}" role="alert">{{ message }}</div>{% endfor %}
+  {% endfor %}
+
+  <section class="section">
+    <div class="alert alert-info d-flex gap-2" role="note">
+      <i class="bi bi-shield-lock" aria-hidden="true"></i>
+      <span>Les informations médicales ne sont visibles ni par la réception ni par l’administration.</span>
+    </div>
+    <div class="card"><div class="card-body pt-3">
+      <div class="table-responsive">
+        <table class="table table-hover align-middle">
+          <thead><tr><th>Consultation</th><th>Patient</th><th>Médecin</th><th>Motif</th><th class="text-end">Action</th></tr></thead>
+          <tbody>
+          {% for consultation in consultations %}
+            {% set appointment = consultation.appointment %}
+            <tr>
+              <td class="text-nowrap"><strong>{{ consultation.consultedAt|date('d/m/Y') }}</strong><br><span class="small text-muted">{{ consultation.consultedAt|date('H:i') }}</span></td>
+              <td>{{ appointment.patient.fullName }}</td>
+              <td>Dr {{ appointment.doctor.fullName }}</td>
+              <td>{{ appointment.nom }}</td>
+              <td class="text-end"><a class="btn btn-sm btn-outline-primary" href="{{ path('app_consultation_show', {id: consultation.id}) }}">Consulter le dossier</a></td>
+            </tr>
+          {% else %}
+            <tr><td colspan="5" class="text-center text-muted py-5">Aucune consultation autorisée pour ce compte.</td></tr>
+          {% endfor %}
+          </tbody>
+        </table>
+      </div>
+      <div class="d-flex justify-content-center">{{ knp_pagination_render(consultations) }}</div>
+    </div></div>
+  </section>
+</main>
+{% endblock %}

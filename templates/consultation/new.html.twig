@@ -1,0 +1,18 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Nouvelle consultation | CliniClic{% endblock %}
+
+{% block body %}
+<main id="main" class="main">
+  <div class="pagetitle">
+    <h1>Nouvelle consultation</h1>
+    <p class="text-muted mb-0">Patient : {{ appointment.patient.fullName }} · Rendez-vous du {{ appointment.scheduledAt|date('d/m/Y à H:i') }}</p>
+  </div>
+  <section class="section">
+    <div class="card"><div class="card-body pt-4">
+      <div class="alert alert-warning" role="note"><strong>Confidentiel :</strong> ne saisissez que les données médicales nécessaires au suivi du patient.</div>
+      {{ include('consultation/_form.html.twig', {form: form, consultation: consultation, button_label: 'Enregistrer la consultation'}) }}
+    </div></div>
+  </section>
+</main>
+{% endblock %}

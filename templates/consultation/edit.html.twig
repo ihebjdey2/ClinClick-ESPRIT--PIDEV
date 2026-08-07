@@ -1,0 +1,12 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Modifier la consultation | CliniClic{% endblock %}
+
+{% block body %}
+<main id="main" class="main">
+  <div class="pagetitle"><h1>Modifier la consultation</h1><p class="text-muted mb-0">Mettez à jour uniquement les informations médicales nécessaires.</p></div>
+  <section class="section"><div class="card"><div class="card-body pt-4">
+    {{ include('consultation/_form.html.twig', {form: form, consultation: consultation, button_label: 'Enregistrer les modifications'}) }}
+  </div></div></section>
+</main>
+{% endblock %}

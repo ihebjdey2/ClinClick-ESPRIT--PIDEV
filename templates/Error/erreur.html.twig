@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Stock introuvable | CliniClic</title>
+  <link href="{{ asset('assets/img/favicon.png') }}" rel="icon">
+  <link href="{{ asset('assets/vendor/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet">
+  <link href="{{ asset('assets/vendor/bootstrap-icons/bootstrap-icons.css') }}" rel="stylesheet">
+  <link href="{{ asset('assets/css/style.css') }}" rel="stylesheet">
+</head>
+<body>
+  <main>
+    <div class="container">
+      <section class="section error-404 min-vh-100 d-flex flex-column align-items-center justify-content-center text-center">
+        <h1>404</h1>
+        <h2>Ce stock n’existe pas.</h2>
+        <a class="btn btn-primary" href="{{ path('display_stock') }}">Retour à la liste des stocks</a>
+        <img src="{{ asset('assets/img/not-found.svg') }}" class="img-fluid py-5" alt="Ressource introuvable">
+        <div class="credits">Conçu par <strong>Dev-Stars</strong></div>
+      </section>
+    </div>
+  </main>
+  <script src="{{ asset('assets/vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+</body>
+</html>

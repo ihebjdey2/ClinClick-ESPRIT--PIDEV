@@ -1,0 +1,14 @@
+{% extends 'base.html.twig' %}
+{% block title %}{{ pageTitle }} | CliniClic{% endblock %}
+{% block body %}
+<main id="main" class="main">
+  <div class="pagetitle"><h1>{{ pageTitle }}</h1><p class="text-muted">Les plages d'un même médecin ne peuvent pas se chevaucher.</p></div>
+  <section class="section"><div class="row justify-content-center"><div class="col-lg-7"><div class="card"><div class="card-body pt-4">
+    {{ form_start(availabilityForm) }}
+      {{ form_errors(availabilityForm) }}
+      {{ form_widget(availabilityForm) }}
+      <div class="d-flex flex-wrap gap-2"><button class="btn btn-primary" type="submit">Enregistrer</button><a class="btn btn-outline-secondary" href="{{ path('app_doctor_availability_index') }}">Annuler</a></div>
+    {{ form_end(availabilityForm) }}
+  </div></div></div></div></section>
+</main>
+{% endblock %}

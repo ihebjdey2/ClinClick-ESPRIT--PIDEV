@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="{% block meta_description %}CliniClic, gestion simple et sécurisée de vos rendez-vous de clinique.{% endblock %}">
+  <meta name="theme-color" content="#0f6f78">
+  <title>{% block title %}CliniClic{% endblock %}</title>
+  <link href="{{ asset('assets/img/favicon.png') }}" rel="icon">
+  {% block stylesheets %}
+    <link href="{{ asset('assets/vendor/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('assets/vendor/bootstrap-icons/bootstrap-icons.css') }}" rel="stylesheet">
+    <link href="{{ asset('assets/css/public.css') }}" rel="stylesheet">
+  {% endblock %}
+</head>
+<body>
+  <a class="skip-link" href="#main-content">Aller au contenu</a>
+  {% set currentRoute = app.request.attributes.get('_route')|default('') %}
+
+  <header class="public-header sticky-top">
+    <nav class="navbar navbar-expand-lg navbar-light" aria-label="Navigation principale">
+      <div class="container">
+        <a class="navbar-brand d-flex align-items-center gap-2" href="{{ path('appHome') }}" aria-label="CliniClic, accueil">
+          <span class="brand-mark" aria-hidden="true"><i class="bi bi-heart-pulse"></i></span>
+          <span>CliniClic</span>
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#publicNavigation" aria-controls="publicNavigation" aria-expanded="false" aria-label="Afficher le menu">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="publicNavigation">
+          <div class="navbar-nav ms-auto align-items-lg-center gap-lg-1 py-3 py-lg-0">
+            <a class="nav-link {{ currentRoute == 'appHome' ? 'active' }}" href="{{ path('appHome') }}">Accueil</a>
+            <a class="nav-link" href="{{ path('appHome') }}#services">Services</a>
+            <a class="nav-link {{ currentRoute starts with 'app_evenement_' ? 'active' }}" href="{{ path('app_evenement_index') }}">Événements</a>
+            <a class="nav-link {{ currentRoute == 'addReclamation' ? 'active' }}" href="{{ path('addReclamation') }}">Nous contacter</a>
+            {% if app.user %}
+              <a class="btn btn-primary ms-lg-2" href="{{ path('app_index') }}">Mon espace</a>
+            {% else %}
+              <a class="btn btn-outline-primary ms-lg-2" href="{{ path('app_login') }}">Connexion</a>
+              <a class="btn btn-primary ms-lg-1" href="{{ path('app_register') }}">Créer un compte</a>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+    </nav>
+  </header>
+
+  <main id="main-content">
+    {% for label, messages in app.flashes %}
+      {% for message in messages %}
+        <div class="container pt-3"><div class="alert alert-{{ label == 'warning' ? 'warning' : (label == 'error' ? 'danger' : 'success') }} alert-dismissible fade show" role="alert">
+          {{ message }}
+          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Fermer"></button>
+        </div></div>
+      {% endfor %}
+    {% endfor %}
+    {% block body %}{% endblock %}
+  </main>
+
+  <footer class="public-footer">
+    <div class="container py-5">
+      <div class="row g-4">
+        <div class="col-lg-5">
+          <a class="footer-brand d-inline-flex align-items-center gap-2 mb-3" href="{{ path('appHome') }}"><span class="brand-mark" aria-hidden="true"><i class="bi bi-heart-pulse"></i></span>CliniClic</a>
+          <p class="mb-0">Une application académique de gestion de clinique conçue autour de la simplicité, de la confidentialité et de l’accessibilité.</p>
+        </div>
+        <div class="col-6 col-lg-3">
+          <h2 class="h6 text-white">Navigation</h2>
+          <ul class="list-unstyled footer-links mb-0">
+            <li><a href="{{ path('appHome') }}#services">Services</a></li>
+            <li><a href="{{ path('app_evenement_index') }}">Événements</a></li>
+            <li><a href="{{ path('addReclamation') }}">Nous contacter</a></li>
+          </ul>
+        </div>
+        <div class="col-6 col-lg-4">
+          <h2 class="h6 text-white">Confidentialité</h2>
+          <p class="small mb-0">Chaque espace est protégé selon le rôle. Les données médicales restent limitées au patient et au médecin concerné.</p>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom"><div class="container py-3 small">© {{ 'now'|date('Y') }} CliniClic · Projet académique avec données de démonstration fictives.</div></div>
+  </footer>
+
+  {% block javascripts %}
+    <script src="{{ asset('assets/vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+  {% endblock %}
+</body>
+</html>

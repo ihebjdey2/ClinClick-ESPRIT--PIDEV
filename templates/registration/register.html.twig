@@ -1,0 +1,24 @@
+{% extends 'base_auth.html.twig' %}
+
+{% block title %}Créer un compte patient | CliniClic{% endblock %}
+
+{% block body %}
+  <h1 class="h3 text-center mb-2">Créer un compte patient</h1>
+  <p class="text-center text-muted mb-4">Renseignez uniquement les informations nécessaires à votre prise en charge.</p>
+
+  {{ form_start(registrationForm) }}
+    <div class="row g-3">
+      <div class="col-sm-6">{{ form_row(registrationForm.prenom) }}</div>
+      <div class="col-sm-6">{{ form_row(registrationForm.nom) }}</div>
+      <div class="col-12">{{ form_row(registrationForm.email) }}</div>
+      <div class="col-sm-6">{{ form_row(registrationForm.dateNaissance) }}</div>
+      <div class="col-sm-6">{{ form_row(registrationForm.genre) }}</div>
+      <div class="col-12">{{ form_row(registrationForm.plainPassword.first) }}</div>
+      <div class="col-12">{{ form_row(registrationForm.plainPassword.second) }}</div>
+      <div class="col-12">{{ form_row(registrationForm.agreeTerms) }}</div>
+    </div>
+    <button class="btn btn-primary w-100 py-2" type="submit">Créer mon compte</button>
+  {{ form_end(registrationForm) }}
+
+  <p class="text-center mt-4 mb-0">Déjà inscrit ? <a href="{{ path('app_login') }}">Se connecter</a></p>
+{% endblock %}

@@ -1,0 +1,79 @@
+:root {
+  --clinic-primary: #1769aa;
+  --clinic-primary-dark: #0e4d82;
+  --clinic-surface: #ffffff;
+  --clinic-background: #f4f7fb;
+  --clinic-text: #22324a;
+  --clinic-muted: #65758b;
+  --clinic-border: #dfe7f0;
+}
+
+body {
+  background: var(--clinic-background);
+  color: var(--clinic-text);
+}
+
+a { color: var(--clinic-primary); }
+a:hover { color: var(--clinic-primary-dark); }
+
+.header {
+  border-bottom: 1px solid var(--clinic-border);
+  box-shadow: 0 2px 14px rgba(25, 53, 84, .06);
+}
+
+.header .logo img { max-height: 38px; }
+.header .logo span { color: var(--clinic-primary-dark); }
+
+.sidebar { border-right: 1px solid var(--clinic-border); }
+.sidebar-nav .nav-link { border-radius: .65rem; }
+.sidebar-nav .nav-link i { color: inherit; }
+
+.card {
+  border: 1px solid var(--clinic-border);
+  border-radius: .85rem;
+  box-shadow: 0 .35rem 1.4rem rgba(39, 69, 103, .055);
+}
+
+.table > :not(caption) > * > * { padding: .85rem .75rem; }
+.table thead th { color: #42536b; font-size: .78rem; letter-spacing: .035em; text-transform: uppercase; }
+
+.btn { min-height: 2.5rem; }
+.btn-sm { min-height: 2rem; }
+
+.form-control, .form-select {
+  border-color: #ccd8e5;
+  min-height: 2.75rem;
+}
+
+.form-control:focus, .form-select:focus, .form-check-input:focus, .btn:focus-visible, a:focus-visible {
+  border-color: var(--clinic-primary);
+  box-shadow: 0 0 0 .25rem rgba(23, 105, 170, .2);
+  outline: 0;
+}
+
+.profile-avatar {
+  align-items: center;
+  background: #e5f1fb;
+  border-radius: 50%;
+  color: var(--clinic-primary-dark);
+  display: inline-flex;
+  font-size: 1rem;
+  font-weight: 700;
+  height: 2.5rem;
+  justify-content: center;
+  width: 2.5rem;
+}
+
+.profile-avatar.profile-avatar-lg { font-size: 1.5rem; height: 5rem; width: 5rem; }
+
+.empty-state { color: var(--clinic-muted); padding: 3rem 1rem; text-align: center; }
+.text-pre-wrap { white-space: pre-wrap; }
+.progress-bar { background-color: var(--clinic-primary); }
+
+@media (max-width: 575.98px) {
+  .main { padding: 1rem; }
+  .pagetitle h1 { font-size: 1.45rem; }
+  .card-body { padding-left: 1rem; padding-right: 1rem; }
+  .btn:not(.btn-sm) { width: 100%; }
+  .d-inline-flex .btn { width: auto; }
+}

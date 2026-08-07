@@ -1,0 +1,26 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Nouvelle prescription | CliniClic{% endblock %}
+
+{% block body %}
+<main id="main" class="main">
+  <div class="pagetitle"><h1>Nouvelle prescription</h1><p class="text-muted mb-0">Consultation du {{ consultation.consultedAt|date('d/m/Y') }}</p></div>
+  <section class="section"><div class="card"><div class="card-body pt-4">
+    {{ form_start(form) }}
+      {{ form_errors(form) }}
+      <div class="row g-3">
+        <div class="col-md-6">{{ form_row(form.medication) }}</div>
+        <div class="col-md-6">{{ form_row(form.dosage) }}</div>
+        <div class="col-12">{{ form_row(form.frequency) }}</div>
+        <div class="col-md-6">{{ form_row(form.startDate) }}</div>
+        <div class="col-md-6">{{ form_row(form.endDate) }}</div>
+        <div class="col-12">{{ form_row(form.instructions) }}</div>
+      </div>
+      <div class="d-flex flex-wrap gap-2 mt-4">
+        <button class="btn btn-primary" type="submit">Ajouter la prescription</button>
+        <a class="btn btn-outline-secondary" href="{{ path('app_consultation_show', {id: consultation.id}) }}">Annuler</a>
+      </div>
+    {{ form_end(form) }}
+  </div></div></section>
+</main>
+{% endblock %}

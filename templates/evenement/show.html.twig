@@ -1,0 +1,53 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Administration des événements | CliniClic{% endblock %}
+
+{% block body %}
+<main id="main" class="main">
+  <div class="pagetitle d-flex flex-wrap justify-content-between align-items-center gap-3">
+    <div>
+      <h1>Administration des événements</h1>
+      <p class="text-muted mb-0">Créez et mettez à jour les événements publiés.</p>
+    </div>
+    <a class="btn btn-primary" href="{{ path('app_evenement_new') }}">Nouvel événement</a>
+  </div>
+
+  {% for label, messages in app.flashes %}
+    {% for message in messages %}
+      <div class="alert alert-{{ label == 'warning' ? 'warning' : 'success' }} alert-dismissible fade show" role="alert">
+        {{ message }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Fermer"></button>
+      </div>
+    {% endfor %}
+  {% endfor %}
+
+  <section class="section">
+    <div class="card"><div class="card-body pt-3">
+      <div class="table-responsive">
+        <table class="table table-hover align-middle mb-0">
+          <thead><tr><th>Titre</th><th>Catégorie</th><th>Date</th><th>Description</th><th class="text-end">Actions</th></tr></thead>
+          <tbody>
+            {% for evenement in evenements %}
+              <tr>
+                <td>{{ evenement.titre }}</td>
+                <td>{{ evenement.category }}</td>
+                <td>{{ evenement.date|date('d/m/Y') }}</td>
+                <td style="min-width: 16rem;">{{ evenement.description }}</td>
+                <td class="text-end">
+                  <div class="d-inline-flex flex-wrap justify-content-end gap-2">
+                    <a class="btn btn-sm btn-outline-secondary" href="{{ path('app_evenement_show', {id: evenement.id}) }}">Voir</a>
+                    <a class="btn btn-sm btn-outline-primary" href="{{ path('app_evenement_edit', {id: evenement.id}) }}">Modifier</a>
+                    {{ include('evenement/_delete_form.html.twig') }}
+                  </div>
+                </td>
+              </tr>
+            {% else %}
+              <tr><td colspan="5" class="text-center text-muted py-5">Aucun événement enregistré.</td></tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div></div>
+  </section>
+</main>
+{% endblock %}

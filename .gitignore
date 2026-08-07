@@ -1,0 +1,54 @@
+
+###> symfony/framework-bundle ###
+/.env
+/.env.local
+/.env.local.php
+/.env.*.local
+/config/secrets/prod/prod.decrypt.private.php
+/public/bundles/
+/var/
+/vendor/
+/composer.phar
+/.composer-cache/
+/config/reference.php
+###< symfony/framework-bundle ###
+
+/.idea/
+
+# Legacy theme sources and duplicated frontend directories are kept locally
+# but are not required by the active Twig layouts.
+/public/css/
+/public/img/
+/public/js/
+/public/lib/
+/public/scss/
+/public/assets/scss/
+/public/assets/vendor/*
+!/public/assets/vendor/bootstrap/
+/public/assets/vendor/bootstrap/*
+!/public/assets/vendor/bootstrap/css/
+/public/assets/vendor/bootstrap/css/*
+!/public/assets/vendor/bootstrap/css/bootstrap.min.css
+!/public/assets/vendor/bootstrap/js/
+/public/assets/vendor/bootstrap/js/*
+!/public/assets/vendor/bootstrap/js/bootstrap.bundle.min.js
+!/public/assets/vendor/bootstrap-icons/
+/public/assets/vendor/bootstrap-icons/*
+!/public/assets/vendor/bootstrap-icons/bootstrap-icons.css
+!/public/assets/vendor/bootstrap-icons/fonts/
+/public/assets/vendor/bootstrap-icons/fonts/*
+!/public/assets/vendor/bootstrap-icons/fonts/bootstrap-icons.woff
+!/public/assets/vendor/bootstrap-icons/fonts/bootstrap-icons.woff2
+/public/assets/img/*
+!/public/assets/img/favicon.png
+!/public/assets/img/apple-touch-icon.png
+!/public/assets/img/logo.png
+!/public/assets/img/carousel-1.jpg
+!/public/assets/img/not-found.svg
+
+# Uploaded event images are runtime data, not source code.
+/public/images/*
+!/public/images/default-event.svg
+!/public/images/events/
+/public/images/events/*
+!/public/images/events/.gitkeep

@@ -1,0 +1,28 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Configuration e-mail | CliniClic{% endblock %}
+
+{% block body %}
+<main id="main" class="main">
+  <div class="pagetitle">
+    <h1>Configuration e-mail</h1>
+    <p class="text-muted">Envoyez un message de test vers l'adresse de votre compte administrateur.</p>
+  </div>
+
+  {% for label, messages in app.flashes %}
+    {% for message in messages %}
+      <div class="alert alert-{{ label == 'warning' ? 'warning' : 'success' }}" role="alert">{{ message }}</div>
+    {% endfor %}
+  {% endfor %}
+
+  <section class="section">
+    <div class="card"><div class="card-body pt-4">
+      <p>Aucune adresse personnelle n'est enregistrée dans le code source. L'expéditeur provient de la configuration et le destinataire est l'administrateur connecté.</p>
+      <form method="post" action="{{ path('app_mailer_send') }}">
+        <input type="hidden" name="_token" value="{{ csrf_token('send-test-email') }}">
+        <button class="btn btn-primary" type="submit">Envoyer un e-mail de test</button>
+      </form>
+    </div></div>
+  </section>
+</main>
+{% endblock %}

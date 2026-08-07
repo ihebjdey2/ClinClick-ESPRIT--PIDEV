@@ -1,0 +1,21 @@
+{% extends 'base.html.twig' %}
+{% block title %}Type de stock | CliniClic{% endblock %}
+{% block body %}
+<main id="main" class="main">
+  <div class="pagetitle">
+    <h1>Nouveau stock</h1>
+    <p class="text-muted">Choisissez une catégorie et le type de produit à enregistrer.</p>
+  </div>
+  <section class="section">
+    <div class="row justify-content-center">
+      <div class="col-lg-7 col-xl-5">
+        <div class="card"><div class="card-body pt-4">
+          {{ form_start(f) }}
+            {{ form_widget(f) }}
+          {{ form_end(f) }}
+        </div></div>
+      </div>
+    </div>
+  </section>
+</main>
+{% endblock %}

@@ -1,0 +1,92 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Rendez-vous | CliniClic{% endblock %}
+
+{% block body %}
+<main id="main" class="main">
+  <div class="pagetitle d-flex flex-wrap justify-content-between align-items-center gap-3">
+    <div>
+      <h1>Rendez-vous</h1>
+      <p class="text-muted mb-0">Les données affichées sont limitées à votre rôle et à vos rendez-vous autorisés.</p>
+    </div>
+    {% if not is_granted('ROLE_DOCTOR') or is_granted('ROLE_ADMIN') or is_granted('ROLE_RECEPTIONIST') %}
+      <a href="{{ path('app_RDV_new') }}" class="btn btn-primary"><i class="bi bi-calendar-plus me-1" aria-hidden="true"></i> Nouveau rendez-vous</a>
+    {% endif %}
+  </div>
+
+  {% for label, messages in app.flashes %}
+    {% for message in messages %}<div class="alert alert-{{ label == 'warning' ? 'warning' : 'success' }}" role="alert">{{ message }}</div>{% endfor %}
+  {% endfor %}
+
+  <section class="section">
+    <div class="card"><div class="card-body pt-3">
+      <form method="get" class="row g-2 align-items-end mb-4" role="search">
+        <div class="col-md-5">
+          <label for="appointment-search" class="form-label">Rechercher</label>
+          <input id="appointment-search" type="search" name="q" value="{{ searchTerm }}" class="form-control" placeholder="Motif, patient, médecin ou type">
+        </div>
+        <div class="col-sm-6 col-md-3">
+          <label for="appointment-status" class="form-label">Statut</label>
+          <select id="appointment-status" name="status" class="form-select">
+            <option value="">Tous</option>
+            {% for status in statuses %}<option value="{{ status.value }}" {{ selectedStatus == status ? 'selected' }}>{{ status.label }}</option>{% endfor %}
+          </select>
+        </div>
+        <div class="col-sm-6 col-md-2">
+          <label for="appointment-date" class="form-label">Date</label>
+          <input id="appointment-date" type="date" name="date" value="{{ selectedDate }}" class="form-control">
+        </div>
+        <div class="col-auto"><button class="btn btn-outline-primary" type="submit">Appliquer</button></div>
+      </form>
+
+      <div class="table-responsive">
+        <table class="table table-hover align-middle">
+          <thead><tr><th>Date</th><th>Motif</th><th>Patient</th><th>Médecin</th><th>Type</th><th>Statut</th><th class="text-end">Actions</th></tr></thead>
+          <tbody>
+            {% for appointment in appointments %}
+              <tr>
+                <td class="text-nowrap"><strong>{{ appointment.scheduledAt|date('d/m/Y') }}</strong><br><span class="small text-muted">{{ appointment.scheduledAt|date('H:i') }} · {{ appointment.durationMinutes }} min</span></td>
+                <td>{{ appointment.nom }}</td>
+                <td>{{ appointment.patient ? appointment.patient.fullName : 'À régulariser' }}</td>
+                <td>{{ appointment.doctor ? 'Dr ' ~ appointment.doctor.fullName : 'Non assigné' }}</td>
+                <td>{{ appointment.category ?: 'Non classé' }}</td>
+                <td><span class="badge {{ appointment.status.badgeClass }}">{{ appointment.status.label }}</span></td>
+                <td class="text-end">
+                  <div class="d-inline-flex flex-wrap justify-content-end gap-2">
+                    {% if is_granted('APPOINTMENT_EDIT', appointment) %}<a class="btn btn-sm btn-outline-primary" href="{{ path('app_RDV_edit', {id: appointment.id}) }}">Modifier</a>{% endif %}
+
+                    {% if is_granted('APPOINTMENT_CHANGE_STATUS', appointment) %}
+                      {% if appointment.status.value == 'pending' %}
+                        {{ include('rdv/_status_form.html.twig', {appointment: appointment, status: 'confirmed', label: 'Confirmer', buttonClass: 'btn-outline-success'}) }}
+                      {% elseif appointment.status.value == 'confirmed' %}
+                        {% if is_granted('ROLE_DOCTOR') and appointment.doctor and appointment.doctor.id == app.user.id and not appointment.consultation %}
+                          <a class="btn btn-sm btn-success" href="{{ path('app_consultation_new', {id: appointment.id}) }}">Créer la consultation</a>
+                          {{ include('rdv/_status_form.html.twig', {appointment: appointment, status: 'no_show', label: 'Absent', buttonClass: 'btn-outline-danger'}) }}
+                        {% endif %}
+                      {% endif %}
+                    {% endif %}
+
+                    {% if appointment.consultation and is_granted('CONSULTATION_VIEW', appointment.consultation) %}
+                      <a class="btn btn-sm btn-outline-primary" href="{{ path('app_consultation_show', {id: appointment.consultation.id}) }}">Voir le dossier</a>
+                    {% endif %}
+
+                    {% if is_granted('APPOINTMENT_CANCEL', appointment) %}
+                      <form method="post" action="{{ path('app_RDV_delete', {id: appointment.id}) }}" onsubmit="return confirm('Annuler ce rendez-vous ? Le créneau sera libéré.');">
+                        <input type="hidden" name="_token" value="{{ csrf_token('cancel-appointment-' ~ appointment.id) }}">
+                        <button type="submit" class="btn btn-sm btn-outline-secondary">Annuler</button>
+                      </form>
+                    {% endif %}
+                  </div>
+                </td>
+              </tr>
+            {% else %}
+              <tr><td colspan="7" class="text-center text-muted py-5">Aucun rendez-vous ne correspond à ces critères.</td></tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+      <div class="d-flex justify-content-center">{{ knp_pagination_render(appointments) }}</div>
+    </div></div>
+  </section>
+</main>
+{% endblock %}

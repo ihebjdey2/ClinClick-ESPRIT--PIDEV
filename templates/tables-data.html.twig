@@ -1,0 +1,102 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Réclamations | CliniClic{% endblock %}
+
+{% block body %}
+<main id="main" class="main">
+  <div class="pagetitle d-flex flex-wrap justify-content-between align-items-center gap-3">
+    <div>
+      <h1>Réclamations</h1>
+      <p class="text-muted mb-0">Suivi des demandes administratives reçues.</p>
+    </div>
+    <div class="d-flex flex-wrap gap-2">
+      <a class="btn btn-outline-secondary" href="{{ path('pdf', {q: searchTerm}) }}">
+        <i class="bi bi-file-earmark-pdf me-1" aria-hidden="true"></i> Exporter en PDF
+      </a>
+      <a class="btn btn-primary" href="{{ path('addReclamation') }}">Nouvelle réclamation</a>
+    </div>
+  </div>
+
+  {% for label, messages in app.flashes %}
+    {% for message in messages %}
+      <div class="alert alert-{{ label == 'warning' ? 'warning' : 'success' }} alert-dismissible fade show" role="alert">
+        {{ message }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Fermer"></button>
+      </div>
+    {% endfor %}
+  {% endfor %}
+
+  <section class="section">
+    <div class="card">
+      <div class="card-body pt-3">
+        <form action="{{ path('app_reclamation') }}" method="get" class="row g-2 align-items-end mb-4" role="search">
+          <div class="col-md-8 col-lg-6">
+            <label class="form-label" for="complaint-search">Rechercher</label>
+            <input id="complaint-search" type="search" name="q" value="{{ searchTerm }}" class="form-control" placeholder="Nom, e-mail, catégorie ou description">
+          </div>
+          <div class="col-auto">
+            <button class="btn btn-outline-primary" type="submit">Rechercher</button>
+          </div>
+          {% if searchTerm %}
+            <div class="col-auto">
+              <a class="btn btn-link" href="{{ path('app_reclamation') }}">Réinitialiser</a>
+            </div>
+          {% endif %}
+        </form>
+
+        <div class="table-responsive">
+          <table class="table table-hover align-middle">
+            <thead>
+              <tr>
+                <th scope="col">Nom</th>
+                <th scope="col">E-mail</th>
+                <th scope="col">Catégorie</th>
+                <th scope="col">Description</th>
+                <th scope="col">État</th>
+                <th scope="col" class="text-end">Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for complaint in complaints %}
+                <tr>
+                  <td>{{ complaint.nom }}</td>
+                  <td><a href="mailto:{{ complaint.email }}">{{ complaint.email }}</a></td>
+                  <td>{{ complaint.categorieReclamation ?: 'Non classée' }}</td>
+                  <td class="text-wrap" style="min-width: 16rem;">{{ complaint.description }}</td>
+                  <td>
+                    <span class="badge {{ complaint.etat ? 'bg-success' : 'bg-warning text-dark' }}">
+                      {{ complaint.etat ? 'Traitée' : 'En attente' }}
+                    </span>
+                  </td>
+                  <td class="text-end">
+                    <div class="d-inline-flex flex-wrap justify-content-end gap-2">
+                      {% if not complaint.etat %}
+                        <a class="btn btn-sm btn-primary" href="{{ path('addReponse', {id: complaint.id}) }}">Répondre</a>
+                      {% endif %}
+                      <a class="btn btn-sm btn-outline-primary" href="{{ path('updateReclamation', {id: complaint.id}) }}">Modifier</a>
+                      <form method="post" action="{{ path('suprimerReclamation', {id: complaint.id}) }}" onsubmit="return confirm('Supprimer cette réclamation ?');">
+                        <input type="hidden" name="_token" value="{{ csrf_token('delete-complaint-' ~ complaint.id) }}">
+                        <button class="btn btn-sm btn-outline-danger" type="submit">Supprimer</button>
+                      </form>
+                    </div>
+                  </td>
+                </tr>
+              {% else %}
+                <tr>
+                  <td colspan="6" class="text-center text-muted py-5">
+                    {{ searchTerm ? 'Aucune réclamation ne correspond à la recherche.' : 'Aucune réclamation enregistrée.' }}
+                  </td>
+                </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+
+        <div class="d-flex justify-content-center">
+          {{ knp_pagination_render(complaints) }}
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+{% endblock %}

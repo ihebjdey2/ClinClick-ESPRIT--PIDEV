@@ -1,0 +1,3 @@
+{% extends 'base.html.twig' %}
+{% block title %}Prendre rendez-vous | CliniClic{% endblock %}
+{% block body %}{{ include('rdv/_form.html.twig', {form: form, title: 'Prendre un rendez-vous', buttonLabel: 'Demander le rendez-vous'}) }}{% endblock %}

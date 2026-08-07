@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="675" viewBox="0 0 1200 675" role="img" aria-labelledby="title description">
+  <title id="title">Illustration d'événement CliniClic</title>
+  <desc id="description">Fond bleu clair avec un symbole médical discret.</desc>
+  <rect width="1200" height="675" fill="#eef6ff"/>
+  <circle cx="600" cy="337" r="150" fill="#d7eaff"/>
+  <path d="M565 222h70v80h80v70h-80v80h-70v-80h-80v-70h80z" fill="#0d6efd"/>
+</svg>

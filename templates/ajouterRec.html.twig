@@ -1,0 +1,26 @@
+{% extends 'base_front.html.twig' %}
+
+{% block title %}Nous contacter | CliniClic{% endblock %}
+
+{% block body %}
+<section class="page-hero"><div class="container py-5"><span class="eyebrow">Accueil et assistance</span><h1 class="mt-2">Transmettre une réclamation</h1><p class="mb-0">Décrivez votre demande administrative. N’indiquez aucune donnée médicale confidentielle dans ce formulaire.</p></div></section>
+<section class="section-space"><div class="container"><div class="row g-4 g-lg-5">
+  <div class="col-lg-5">
+    <h2>Une réponse claire à votre demande</h2>
+    <p class="text-muted">Ce canal permet de signaler un problème d’accueil, d’organisation ou de service.</p>
+    <div class="privacy-note"><i class="bi bi-shield-lock" aria-hidden="true"></i><div><h3>Respect de votre vie privée</h3><p class="mb-0">Pour une question médicale, utilisez votre espace sécurisé ou contactez directement votre médecin.</p></div></div>
+  </div>
+  <div class="col-lg-7"><div class="form-card">
+    {{ form_start(f) }}
+      {{ form_errors(f) }}
+      <div class="row g-3">
+        <div class="col-md-6">{{ form_row(f.nom) }}</div>
+        <div class="col-md-6">{{ form_row(f.email) }}</div>
+        <div class="col-12">{{ form_row(f.categorieReclamation) }}</div>
+        <div class="col-12">{{ form_row(f.description) }}</div>
+      </div>
+      {{ form_row(f.submit, {attr: {class: 'btn btn-primary mt-3'}}) }}
+    {{ form_end(f) }}
+  </div></div>
+</div></div></section>
+{% endblock %}

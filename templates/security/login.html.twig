@@ -1,0 +1,31 @@
+{% extends 'base_auth.html.twig' %}
+
+{% block title %}Connexion | CliniClic{% endblock %}
+
+{% block body %}
+  <h1 class="h3 text-center mb-2">Bienvenue</h1>
+  <p class="text-center text-muted mb-4">Connectez-vous à votre espace sécurisé.</p>
+
+  {% for message in app.flashes('success') %}
+    <div class="alert alert-success" role="alert">{{ message }}</div>
+  {% endfor %}
+
+  {% if error %}
+    <div class="alert alert-danger" role="alert">Adresse e-mail ou mot de passe incorrect.</div>
+  {% endif %}
+
+  <form method="post">
+    <div class="mb-3">
+      <label class="form-label" for="login-email">Adresse e-mail</label>
+      <input id="login-email" type="email" name="_username" value="{{ last_username }}" class="form-control" autocomplete="email" required autofocus>
+    </div>
+    <div class="mb-3">
+      <label class="form-label" for="login-password">Mot de passe</label>
+      <input id="login-password" type="password" name="_password" class="form-control" autocomplete="current-password" required>
+    </div>
+    <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+    <button class="btn btn-primary w-100 py-2" type="submit">Se connecter</button>
+  </form>
+
+  <p class="text-center mt-4 mb-0">Pas encore de compte ? <a href="{{ path('app_register') }}">Créer un compte patient</a></p>
+{% endblock %}

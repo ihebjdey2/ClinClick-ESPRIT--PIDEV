@@ -1,0 +1,58 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Réponses | CliniClic{% endblock %}
+
+{% block body %}
+<main id="main" class="main">
+  <div class="pagetitle">
+    <h1>Réponses aux réclamations</h1>
+    <p class="text-muted">Historique des réponses enregistrées.</p>
+  </div>
+
+  {% for label, messages in app.flashes %}
+    {% for message in messages %}
+      <div class="alert alert-{{ label == 'warning' ? 'warning' : 'success' }} alert-dismissible fade show" role="alert">
+        {{ message }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Fermer"></button>
+      </div>
+    {% endfor %}
+  {% endfor %}
+
+  <section class="section">
+    <div class="card">
+      <div class="card-body pt-3">
+        <div class="table-responsive">
+          <table class="table table-hover align-middle">
+            <thead>
+              <tr>
+                <th scope="col">Objet</th>
+                <th scope="col">Message</th>
+                <th scope="col">Réclamation</th>
+                <th scope="col" class="text-end">Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for response in responses %}
+                <tr>
+                  <td>{{ response.objet }}</td>
+                  <td>{{ response.message }}</td>
+                  <td>#{{ response.relationReclamation.id }} — {{ response.relationReclamation.nom }}</td>
+                  <td class="text-end">
+                    <form method="post" action="{{ path('suprimerReponse', {id: response.id}) }}" onsubmit="return confirm('Supprimer cette réponse ?');">
+                      <input type="hidden" name="_token" value="{{ csrf_token('delete-response-' ~ response.id) }}">
+                      <button class="btn btn-sm btn-outline-danger" type="submit">Supprimer</button>
+                    </form>
+                  </td>
+                </tr>
+              {% else %}
+                <tr><td colspan="4" class="text-center text-muted py-5">Aucune réponse enregistrée.</td></tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+        <div class="d-flex justify-content-center">{{ knp_pagination_render(responses) }}</div>
+      </div>
+    </div>
+  </section>
+</main>
+{% endblock %}

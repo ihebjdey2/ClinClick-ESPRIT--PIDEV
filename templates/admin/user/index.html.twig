@@ -1,0 +1,76 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Utilisateurs | CliniClic{% endblock %}
+
+{% block body %}
+<main id="main" class="main">
+  <div class="pagetitle d-flex flex-wrap justify-content-between align-items-center gap-3">
+    <div>
+      <h1>Utilisateurs</h1>
+      <p class="text-muted mb-0">Gérez les comptes et leurs rôles métier.</p>
+    </div>
+    <a class="btn btn-primary" href="{{ path('app_admin_user_new') }}"><i class="bi bi-person-plus me-1" aria-hidden="true"></i> Créer un compte</a>
+  </div>
+
+  {% for label, messages in app.flashes %}
+    {% for message in messages %}
+      <div class="alert alert-{{ label == 'warning' ? 'warning' : 'success' }}" role="alert">{{ message }}</div>
+    {% endfor %}
+  {% endfor %}
+
+  <section class="section">
+    <div class="card"><div class="card-body pt-3">
+      <form method="get" class="row g-2 align-items-end mb-4" role="search">
+        <div class="col-md-6">
+          <label for="user-search" class="form-label">Rechercher</label>
+          <input id="user-search" type="search" name="q" value="{{ searchTerm }}" class="form-control" placeholder="Nom, prénom ou e-mail">
+        </div>
+        <div class="col-md-3">
+          <label for="user-role" class="form-label">Rôle</label>
+          <select id="user-role" name="role" class="form-select">
+            <option value="">Tous les rôles</option>
+            {% for role, label in roleChoices %}<option value="{{ role }}" {{ selectedRole == role ? 'selected' }}>{{ label }}</option>{% endfor %}
+          </select>
+        </div>
+        <div class="col-auto"><button class="btn btn-outline-primary" type="submit">Appliquer</button></div>
+      </form>
+
+      <div class="table-responsive">
+        <table class="table table-hover align-middle">
+          <thead><tr><th>Utilisateur</th><th>Rôles</th><th>État</th><th class="text-end">Actions</th></tr></thead>
+          <tbody>
+            {% for managedUser in users %}
+              <tr>
+                <td>
+                  <div class="fw-semibold">{{ managedUser.fullName }}</div>
+                  <div class="small text-muted">{{ managedUser.email }}</div>
+                </td>
+                <td>
+                  {% for role in managedUser.roles|filter(role => role != 'ROLE_USER') %}
+                    <span class="badge bg-primary-subtle text-primary">{{ roleChoices[role]|default(role) }}</span>
+                  {% endfor %}
+                </td>
+                <td><span class="badge {{ managedUser.verified ? 'bg-success' : 'bg-secondary' }}">{{ managedUser.verified ? 'Actif' : 'Non vérifié' }}</span></td>
+                <td class="text-end">
+                  <div class="d-inline-flex flex-wrap justify-content-end gap-2">
+                    <a class="btn btn-sm btn-outline-primary" href="{{ path('app_admin_user_edit', {id: managedUser.id}) }}">Modifier</a>
+                    {% if managedUser.id != app.user.id %}
+                      <form method="post" action="{{ path('app_admin_user_delete', {id: managedUser.id}) }}" onsubmit="return confirm('Supprimer ce compte ?');">
+                        <input type="hidden" name="_token" value="{{ csrf_token('delete-user-' ~ managedUser.id) }}">
+                        <button type="submit" class="btn btn-sm btn-outline-danger">Supprimer</button>
+                      </form>
+                    {% endif %}
+                  </div>
+                </td>
+              </tr>
+            {% else %}
+              <tr><td colspan="4" class="text-center text-muted py-5">Aucun utilisateur trouvé.</td></tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+      <div class="d-flex justify-content-center">{{ knp_pagination_render(users) }}</div>
+    </div></div>
+  </section>
+</main>
+{% endblock %}

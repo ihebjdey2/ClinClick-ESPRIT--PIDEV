@@ -1,0 +1,72 @@
+security:
+    password_hashers:
+        Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface: 'auto'
+
+    role_hierarchy:
+        ROLE_PATIENT: ROLE_USER
+        ROLE_DOCTOR: ROLE_USER
+        ROLE_RECEPTIONIST: ROLE_USER
+        ROLE_ADMIN: ROLE_USER
+
+    providers:
+        app_user_provider:
+            entity:
+                class: App\Entity\User
+                property: email
+
+    firewalls:
+        dev:
+            pattern: ^/(_(profiler|wdt)|css|images|js|assets|lib)/
+            security: false
+        main:
+            lazy: true
+            provider: app_user_provider
+            user_checker: App\Security\UserChecker
+            form_login:
+                login_path: app_login
+                check_path: app_login
+                enable_csrf: true
+                default_target_path: app_index
+            login_throttling:
+                max_attempts: 5
+                interval: '15 minutes'
+            logout:
+                path: app_logout
+                target: appHome
+                enable_csrf: true
+                csrf_parameter: _csrf_token
+                csrf_token_id: logout
+
+    access_control:
+        - { path: ^/login$, roles: PUBLIC_ACCESS }
+        - { path: ^/register$, roles: PUBLIC_ACCESS }
+        - { path: ^/home$, roles: PUBLIC_ACCESS }
+        - { path: ^/Error$, roles: PUBLIC_ACCESS }
+        - { path: ^/addReclamation$, roles: PUBLIC_ACCESS }
+        - { path: ^/evenement$, roles: PUBLIC_ACCESS, methods: [GET] }
+        - { path: ^/evenement/\d+$, roles: PUBLIC_ACCESS, methods: [GET] }
+        - { path: ^/evenement/\d+/participation$, roles: ROLE_USER, methods: [POST] }
+        - { path: ^/API/(evenement|recAPI)$, roles: PUBLIC_ACCESS, methods: [GET] }
+        - { path: ^/admin, roles: ROLE_ADMIN }
+        - { path: ^/medical, roles: [ROLE_DOCTOR, ROLE_PATIENT] }
+        - { path: ^/doctor/availability, roles: [ROLE_DOCTOR, ROLE_ADMIN] }
+        - { path: ^/(stock|addStock|addMed|addEquipement|choixCategorie|removeStock|modifStock), roles: ROLE_ADMIN }
+        - { path: ^/(categorie|addCategorie|removeCategorie|modifCategorie), roles: ROLE_ADMIN }
+        - { path: ^/category, roles: ROLE_ADMIN }
+        - { path: ^/RDV, roles: ROLE_ADMIN }
+        - { path: ^/(reclamation|recherchereclamation|pdf|suppReclamation|updateReclamation|reponse|addReponse|suppReponse|categorieReclamation|addCategorieReclamation|suppCategorieReclamation|updateCategorieReclamation), roles: [ROLE_ADMIN, ROLE_RECEPTIONIST] }
+        - { path: ^/evenement, roles: ROLE_ADMIN }
+        - { path: ^/API, roles: ROLE_ADMIN }
+        - { path: ^/email, roles: ROLE_ADMIN }
+        - { path: ^/mailer, roles: ROLE_ADMIN }
+        - { path: ^/rendez-vous, roles: ROLE_USER }
+        - { path: ^/, roles: ROLE_USER }
+
+when@test:
+    security:
+        password_hashers:
+            Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface:
+                algorithm: auto
+                cost: 4
+                time_cost: 3
+                memory_cost: 10
