@@ -1,0 +1,26 @@
+# Codename One / NetBeans build output
+/build/
+/dist/
+/nbproject/private/
+/native/internal_tmp/
+
+# Generated SDK and local artifacts
+/CodeNameOneBuildClient.jar
+/JavaSE.jar
+/Reclamation.pdf
+*.class
+*.log
+
+# IDE and operating-system files
+/.idea/
+/.vscode/
+.DS_Store
+Thumbs.db
+
+# Mobile signing material and credentials
+*.keystore
+*.jks
+*.p12
+*.mobileprovision
+*.cer
+*.key
